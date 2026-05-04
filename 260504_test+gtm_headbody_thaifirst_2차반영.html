@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Korea Travel Survival Type Test</title>
+    <link rel="preload" as="image" href="https://drive.google.com/thumbnail?id=1KxW6WiqZaRZ9QWcgbE_99GDqYqXSEcNa&sz=w800">
+    <link rel="preload" as="image" href="https://drive.google.com/thumbnail?id=1fUvS64anZIvnCeD17FbQu49Nxc96vxjI&sz=w500">
+    <link rel="preload" as="image" href="https://drive.google.com/thumbnail?id=1gQ6D18WpAlbMNFLshf6WcnXb1XXspHEB&sz=w500">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@400;700&family=Noto+Sans:wght@300;400;500;700;900&family=Noto+Sans+Thai:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-KH9D9WJZ');</script>
+    <!-- End Google Tag Manager -->
+    
+    <style>
+        /* BASE RESET & SETUP */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            background-color: #f0f0f0;
+            color: #000;
+            font-family: 'Noto Sans', 'Noto Sans Thai', sans-serif;
+            line-height: 1.5;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* LANGUAGE SELECTOR - Fixed at top */
+        .lang-nav {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            z-index: 10;
+        }
+
+        .lang-btn {
+            padding: 4px 12px;
+            border: 1px solid #000;
+            background: rgba(255, 255, 255, 0.4);
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            border-radius: 20px;
+        }
+
+        .lang-btn.active {
+            background: #000;
+            color: #fff;
+        }
+
+        /* WEBTOON CONTAINER */
+        .webtoon-viewer {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-left: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            position: relative;
+            padding-top: 50px;
+        }
+
+        /* PROGRESS BAR */
+        .progress-wrapper {
+            position: absolute;
+            top: 50px; left: 0; width: 100%; height: 3px;
+            background: #eee; z-index: 100; display: none;
+        }
+        .progress-fill {
+            height: 100%; background: #000; width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* CUTS */
+        .cut {
+            width: 100%;
+            min-height: calc(100vh - 50px);
+            padding: 40px 20px;
+            position: relative;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        #step-result, #step-all-guides { 
+            justify-content: flex-start; 
+            padding-top: 40px;
+            padding-bottom: 80px;
+        }
+        
+        .cut.active {
+            display: flex;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .bg-screentone-1 {
+            background-image: radial-gradient(#e8e8e8 1px, transparent 1px);
+            background-size: 8px 8px;
+        }
+        .bg-screentone-2 {
+            background: repeating-linear-gradient(45deg, #f9f9f9, #f9f9f9 2px, #fff 2px, #fff 12px);
+        }
+
+        /* TYPOGRAPHY */
+        .title-text {
+            font-family: 'Hahmlet', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            line-height: 1.2;
+            text-align: center;
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+            word-break: keep-all;
+        }
+
+        .narration-box {
+            background: #fff;
+            border: 1px solid #000;
+            padding: 16px 20px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-align: center;
+            margin: 0 auto 30px auto;
+            max-width: 95%;
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .bubble {
+            background: #fff;
+            border: 1px solid #000;
+            border-radius: 28px;
+            padding: 16px 24px;
+            color: #000;
+            font-size: 1.05rem;
+            font-weight: 400;
+            line-height: 1.45;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+            max-width: 320px;
+            margin: 0 auto 16px auto;
+            text-align: center;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 40px;
+            border-width: 8px 8px 0 0;
+            border-style: solid;
+            border-color: #fff transparent transparent transparent;
+            z-index: 2;
+        }
+        .bubble::before {
+            content: '';
+            position: absolute;
+            bottom: -9px;
+            left: 39px;
+            border-width: 9px 9px 0 0;
+            border-style: solid;
+            border-color: #000 transparent transparent transparent;
+            z-index: 1;
+        }
+
+        .bubble:active {
+            background-color: #f5f5f5;
+            transform: scale(0.98);
+        }
+
+        .section-label {
+            font-size: 0.85rem;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 25px;
+            color: #000;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* BACK BUTTON */
+        .back-btn {
+            align-self: flex-start;
+            margin-left: 5%;
+            margin-top: 10px;
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 0.85rem;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        /* CHART PANEL */
+        .chart-panel {
+            background: url('https://drive.google.com/thumbnail?id=1lkicGSGt6VwORcWXj5H2FXkl4-uT5o7m&sz=w800') no-repeat center center;
+            background-size: contain;
+            margin: 10px auto 30px auto;
+            width: 100%; 
+            max-width: 480px;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        #radarChart {
+            margin: 0 auto;
+        }
+
+        /* RESULTS */
+        .result-block { display: none; }
+        .result-tag {
+            text-align: center; font-size: 0.85rem; font-weight: 700; color: #666; margin-bottom: 5px;
+        }
+        .result-title { 
+            font-family: 'Hahmlet', serif; 
+            font-size: 1.8rem; 
+            font-weight: 700; 
+            margin: 5px 0 15px 0; 
+            line-height: 1.2; 
+            text-align: center; 
+        }
+        .result-desc { 
+            font-size: 0.95rem; 
+            font-weight: 400; 
+            text-align: center; 
+            margin-bottom: 30px; 
+            padding: 20px; 
+            border: 1px solid #000; 
+            background: #fff; 
+            word-break: break-word;
+            overflow-wrap: break-word; 
+            line-height: 1.6;
+        }
+
+        /* GUIDES */
+        .guide-panel { 
+            border: 1px solid #000; 
+            padding: 20px; 
+            background: #fff; 
+            margin-bottom: 20px; 
+            box-shadow: 4px 4px 0 rgba(0,0,0,1);
+        }
+        .guide-num { 
+            font-size: 0.7rem; 
+            font-weight: 700; 
+            border-bottom: 1px solid #000; 
+            display: inline-block; 
+            margin-bottom: 12px; 
+            text-transform: uppercase;
+        }
+        .guide-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 14px; line-height: 1.3; }
+        .guide-panel ul { margin-left: 20px; margin-bottom: 14px; font-size: 0.95rem; line-height: 1.6; }
+        .guide-panel li { margin-bottom: 8px; list-style-type: disc; }
+        .guide-tip { background: #f5f5f5; border-left: 5px solid #000; padding: 12px; font-size: 0.85rem; font-weight: 700; }
+
+        .type-header {
+            font-family: 'Hahmlet', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            background: #000;
+            color: #fff;
+            padding: 10px 15px;
+            margin: 40px 0 20px 0;
+            display: inline-block;
+        }
+
+        .action-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+            width: 100%;
+            margin-top: 30px;
+        }
+        .action-row {
+            display: flex;
+            gap: 12px;
+            width: 90%;
+        }
+        .action-btn {
+            background: #000;
+            color: #fff;
+            border: 1px solid #000;
+            border-radius: 30px;
+            padding: 18px 24px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: center;
+            flex: 1;
+        }
+        .action-btn.full { width: 90%; flex: none; }
+        .action-btn:active { background: #333; }
+
+        /* QUESTION IMAGES */
+        .question-top-img {
+            width: 100%;
+            max-width: 380px;
+            margin: 0 auto 20px auto;
+            display: block;
+            border-radius: 12px;
+        }
+
+        /* START SCREEN CUSTOMIZATION */
+        #step-0 {
+            background: url('https://drive.google.com/thumbnail?id=1KxW6WiqZaRZ9QWcgbE_99GDqYqXSEcNa&sz=w800') no-repeat center center !important;
+            background-size: cover !important;
+        }
+        #start-sub-title {
+            margin-top: 0;
+            margin-bottom: 5px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-align: center;
+            z-index: 10;
+        }
+        #start-title { 
+            margin-top: 0;
+            z-index: 10;
+        }
+        #start-btn-text {
+            background: url('https://drive.google.com/thumbnail?id=10ydcMCY8BuE9CYBoEiEtbhjfMrMVHRp0&sz=w500') no-repeat center center !important;
+            background-size: contain !important;
+            border: none !important;
+            border-radius: 0 !important;
+            width: 240px;
+            height: 110px;
+            padding: 0;
+            margin-top: 300px; 
+            margin-bottom: 15px; 
+            font-weight: 700;
+            color: transparent;
+            z-index: 10;
+        }
+        #start-btn-text::before, #start-btn-text::after { display: none !important; }
+        #start-btn-text:active { transform: scale(0.95); background-color: transparent !important; }
+        
+        #start-bottom-text {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #666;
+            text-align: center;
+            margin-bottom: 100px;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KH9D9WJZ"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+
+<div class="webtoon-viewer">
+    <div class="progress-wrapper" id="progressWrapper">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <!-- START -->
+    <section class="cut bg-screentone-1 active" id="step-0" style="align-items: center;">
+        <nav class="lang-nav">
+            <button class="lang-btn active" id="btn-th" onclick="changeLanguage('th')">ไทย (Thai)</button>
+            <button class="lang-btn" id="btn-en" onclick="changeLanguage('en')">English</button>
+        </nav>
+        <div id="start-sub-title"></div>
+        <h1 class="title-text" id="start-title">Korea Travel<br>Survival Test</h1>
+        <div class="bubble" onclick="nextStep(1)" id="start-btn-text">Tap to start</div>
+        <div id="start-bottom-text"></div>
+    </section>
+
+    <!-- Questions 1-7 -->
+    <section class="cut" id="step-1">
+        <img src="https://drive.google.com/thumbnail?id=1R_HSKrbi0tlM6sWKpVG6qBSYQWgr_J2s&sz=w800" class="question-top-img" loading="lazy">
+        <div class="section-label" id="label-q1"></div>
+        <div class="narration-box" id="text-q1"></div>
+        <div class="options-container" id="opts-q1"></div>
+    </section>
+    
+    <section class="cut bg-screentone-2" id="step-2">
+        <img src="https://drive.google.com/thumbnail?id=1p1sAtg9ju4RvzuiEqdrS2cl9c_4hAZ86&sz=w800" class="question-top-img" loading="lazy">
+        <div class="section-label" id="label-q2"></div>
+        <div class="narration-box" id="text-q2"></div>
+        <div class="options-container" id="opts-q2"></div>
+        <button class="back-btn" onclick="goBack()" id="back-q2"></button>
+    </section>
+
+    <section class="cut" id="step-3">
+        <img src="https://drive.google.com/thumbnail?id=1RjBP9mfmiJnWbugWHHRaO3nlayhM5mao&sz=w800" class="question-top-img" loading="lazy">
+        <div class="section-label" id="label-q3"></div>
+        <div class="narration-box" id="text-q3"></div>
+        <div class="options-container" id="opts-q3"></div>
+        <button class="back-btn" onclick="goBack()" id="back-q3"></button>
+    </section>
+
+    <section class="cut bg-screentone-1" id="step-4">
+        <img src="https://drive.google.com/thumbnail?id=1eBNO8t4APbMvpXfmhC_6FJCc0-sP8013&sz=w800" class="question-top-img" loading="lazy">
+        <div class="section-label" id="label-q4"></div>
+        <div class="narration-box" id="text-q4"></div>
+        <div class="options-container" id="opts-q4"></div>
+        <button class="back-btn" onclick="goBack()" id="back-q4"></button>
+    </section>
+
+    <section class="cut" id="step-5">
+        <img src="https://drive.google.com/thumbnail?id=1OqVwirstcqb8it66tiSvKK5Uz9QrbpMm&sz=w800" class="question-top-img" loading="lazy">
+        <div class="section-label" id="label-q5"></div>
+        <div class="narration-box" id="text-q5"></div>
+        <div class="options-container" id="opts-q5"></div>
+        <button class="back-btn" onclick="goBack()" id="back-q5"></button>
+    </section>
+
+    <section class="cut bg-screentone-2" id="step-6">
+        <img src="https://drive.google.com/thumbnail?id=1RJNTNkxL0NgcAG0YSSOIe8Om_AC_Xfsx&sz=w800" class="question-top-img" loading="lazy">
+        <div class="section-label" id="label-q6"></div>
+        <div class="narration-box" id="text-q6"></div>
+        <div class="options-container" id="opts-q6"></div>
+        <button class="back-btn" onclick="goBack()" id="back-q6"></button>
+    </section>
+
+    <section class="cut" id="step-7">
+        <img src="https://drive.google.com/thumbnail?id=19ypKj8wMgzEyJcoGpyXvOXEqX9wmCduZ&sz=w800" class="question-top-img" loading="lazy">
+        <div class="section-label" id="label-q7"></div>
+        <div class="narration-box" id="text-q7"></div>
+        <div class="options-container" id="opts-q7"></div>
+        <button class="back-btn" onclick="goBack()" id="back-q7"></button>
+    </section>
+
+    <!-- RESULTS -->
+    <section class="cut bg-screentone-1" id="step-result">
+        <div class="section-label" id="result-label-text"></div>
+        <div class="chart-panel"><canvas id="radarChart"></canvas></div>
+        <div id="result-display">
+            <div class="result-tag" id="res-tag"></div>
+            <div class="result-title" id="res-title"></div>
+            <div class="result-desc" id="res-desc"></div>
+        </div>
+        <div class="title-text" style="font-size: 1.5rem; text-align: left; margin-bottom: 20px;" id="cheat-codes-title">Survival Cheat Codes</div>
+        <div id="dynamicGuideGrid"></div>
+        
+        <div class="action-container">
+            <div class="action-row">
+                <button class="action-btn" onclick="location.reload()" id="restart-btn"></button>
+                <button class="action-btn" onclick="shareLink('share-btn')" id="share-btn"></button>
+            </div>
+            <button class="action-btn full" onclick="showAllGuides()" id="all-guides-btn"></button>
+        </div>
+        <div style="height: 60px; width: 100%;"></div>
+    </section>
+
+    <!-- ALL GUIDES SECTION -->
+    <section class="cut bg-screentone-2" id="step-all-guides">
+        <button class="back-btn" onclick="nextStep('result')" id="back-to-result-btn" style="margin-left: 0; margin-bottom: 20px;"></button>
+        <div class="title-text" style="font-size: 2rem; text-align: left; margin-bottom: 10px;" id="all-cheat-codes-title">All Cheat Codes</div>
+        <div id="allGuidesContainer"></div>
+        <div class="action-container" style="margin-top: 20px;">
+            <button class="action-btn full" onclick="shareLink('share-btn-all')" id="share-btn-all"></button>
+        </div>
+        <div style="height: 80px; width: 100%;"></div>
+    </section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    let currentLang = 'th';
+    let currentStep = 1;
+    let userChoices = [];
+    const totalQuestions = 7;
+
+    const i18n = {
+        en: {
+            startSubTitle: "What kind of Korea traveler are you?",
+            startBottomText: "Only 7 questions · No signup · All tips unlocked",
+            startTitle: "Travel Personality<br>Quiz", startBtn: "Tap to start", back: "← Back", restart: "Restart", share: "Share Link",
+            allGuides: "Explore all survival cheat codes", backResult: "← Back to Result", allTitle: "All Cheat Codes",
+            resultLabel: "Your survival kit,<br>curated for your vibe.", cheatTitle: "Survival Cheat Codes",
+            cheatCodePrefix: "Cheat Code",
+            labels: { p1: "PART 1. Before You Leave — The Research Phase", p2: "PART 2. Arrived in Korea — The Friction Points", p3: "PART 3. On the Ground — How You React" },
+            radarLabels: [['Digital', 'Skills'], ['Info', 'Search'], ['Social', 'Chameleon'], ['Action'], ['Crisis', 'Mgt']],
+            questions: [
+                { q: "Q1. Before your Korea trip, how do you usually prepare?", o: ["I've got a whole list of places saved from social media.", "I try to book things on apps, but I always get stuck at the ID verification part.", "I just go with what worked last time and pull up my old notes.", "I pick a couple of must-see spots and figure out the rest on the ground."] },
+                { q: "Q2. You need a transit card to get from the airport to the city. You…", o: ["There are way too many options. I have no idea what I actually need.", "I thought my card would work, but it didn't go through. I panicked.", "I brought the card I used last time, but it’s not working. Did something change?", "I have the card, but I'm worried because I don't understand the transfer rules."] },
+                { q: "Q3. You’re at a popular restaurant, trying to join the waitlist. You…", o: ["Huge line, no idea how to put my name down, so I just hesitate near the entrance.", "The waitlist requires a Korean phone number, and I’m stuck again.", "A few years ago, people were lining up before, but now everyone is using a machine.", "Registered fine, but I'm just watching the entrance because I'm not sure how to know when it's my turn."] },
+                { q: "Q4. You’re seated in the restaurant, but no one comes over. You…", o: ["Try to look it up, but there’s way too much info, and I don’t know what to trust.", "Just sit there and wait, hoping someone notices me.", "I feel like they used to bring it automatically. Has something changed?", "I feel like it might be rude to get water myself, so I just awkwardly look around."] },
+                { q: "Q5. How do you handle paying the bill?", o: ["Too many options, not sure what works best.", "Card gets declined, immediately start sweating.", "Used to be simpler, now feels totally different.", "Try whatever’s there, ask for help right away."] },
+                { q: "Q6. The menu has no photos and no English. You…", o: ["Translation app gives too many options, can't decide.", "Tried camera translation, but text is blurry.", "Had something like this before, forgot the name.", "Know I could point, but it feels kind of awkward."] },
+                { q: "Q7. Something I keep thinking about on this trip is…", o: ["“There’s so much stuff online, but none of it feels right for me.”", "\"I did everything right. Why does the system keep blocking me?\"", "\"Wait, wasn’t it different last time? Why does it feel like I have to relearn everything?\"", "\"Okay, I made it this far... but what am I supposed to do next?\""] }
+            ],
+            results: {
+                A: { tag: "Supplementary: Take Action", title: "Info Overload Explorer", desc: "You've done all the research — but too much info has you frozen in place. Sometimes done is better than perfect." },
+                B: { tag: "Supplementary: Digital Skills", title: "Analog Traveler", desc: "You came fully prepared — but Korea's verification systems keep getting in your way. Master a few local apps and nothing can hold you back." },
+                C: { tag: "Supplementary: Social Chameleon", title: "Returning Regular", desc: "Korea isn't new to you — but every visit feels like the first time because everything keeps changing. Time to reinstall." },
+                D: { tag: "Supplementary: System Update", title: "Perpetual Beginner", desc: "You nailed the entrance — but once you're inside, you completely freeze up. Learn Korea's unspoken rules and you'll finally relax." }
+            },
+            cheats: {
+                A: [
+                    { t: "Dining & Ordering System", i: ["Use real-time translation features to extract information from menus.", "Kiosks are operated by selecting visual objects (photos/icons).", "Pointing at an item or a nearby table while saying 'This one' (이거요 / I-geo-yo) is the most effective input method.", "Save essential requests like 'Less spicy, please' (덜 맵게 해주세요 / Deol maep-ge hae-ju-se-yo) in a translation app to show staff."], tip: "Tip: Remove language noise and synchronize with the system using gestures and technology." },
+                    { t: "Managing Allergies & Dietary Data", i: ["Save your allergy information in Korean in a memo app.", "Showing the screen upon entry saves you from complex verbal explanations.", "Use a camera translation feature to instantly scan product ingredient labels at convenience stores.", "For specific diets (Vegan/Halal, etc.), use dedicated search apps to filter your options."], tip: "Tip: Standardize your information and present it to ensure your safety." },
+                    { t: "Local Restaurant Search Algorithm", i: ["Use local restaurant review platforms rather than global map apps for more accurate data.", "Search for '[Area Name] + 맛집' (Mat-jip / Hot place) in Korean on social media for real-time results.", "Accommodation hosts are reliable nodes for accurate local coordinates.", "Refresh your data based on recent reviews, especially for areas outside the capital."], tip: "Tip: Prioritize real-time, local-use data over generic search results." },
+                    { t: "Utilizing Payment & Reservation Infrastructure", i: ["Official reservation apps for international visitors are the primary channels.", "Direct messages (DM) on social media are effective bypasses for solving exceptions the system cant handle.", "Secure prepaid payment/transportation cards to synchronize your physical infrastructure."], tip: "Tip: Secure the right tools to remove barriers to payment and reservation." }
+                ],
+                B: [
+                    { t: "Using International Reservation Apps (Official Booking)", i: ["First, install the reservation app designed for international visitors.", "Sign up easily via Email/SNS.", "Booking is instantly confirmed upon paying the deposit with an international card."], tip: "Tip: Restaurants on the global-friendly app have a 100% reservation success rate." },
+                    { t: "Bypassing Local Reservation Platforms", i: ["If a platform requires local mobile identity verification, consider it inaccessible.", "Don't repeat failed attempts; check the restaurant's official social media for DM options.", "Inquiring via DM is often the fastest way to confirm availability."], tip: "Tip: Don't waste time where you're blocked; pivot to DM." },
+                    { t: "Understanding Deposit & No-show Policies", i: ["The deposit is not a fee, but a 'safety deposit' to secure your seat.", "Confirm that it will be refunded or deducted from your final bill upon arrival."], tip: "Tip: Confirm that this is a process to secure your seat, not a payment." },
+                    { t: "On-site Entry Protocol", i: ["Have your reservation proof (app screen/text) ready before you arrive.", "Show the screen to the staff and clearly say 'Ye-yak-haet-seum-ni-da' (예약했습니다 / I have a reservation).", "If there is a kiosk for queuing, confirm with the staff before entering your number."], tip: "Tip: Screen presentation → Staff verification → System synchronization." }
+                ],
+                C: [
+                    { t: "How to Choose the Right Transit Card for Your Style", i: ["For Unlimited Travel: Local unlimited transit pass. Ride without extra costs.", "For Nationwide & Payments: Standard reloadable transit card (T-money). Pay for taxis and convenience stores.", "For All-in-One: Prepaid travel currency card. Load foreign currency at airports and use as a debit card.", "For Sightseeing: City tourist pass. Free entry to hotspots plus transit functions."], tip: "Tip: Select the card that aligns with your travel movement." },
+                    { t: "Don't Waste Time Searching! (Map Tip)", i: ["Problem: Searching in English often yields limited results.", "Solution: Look for 'Bookmark Map Lists' shared by local influencers or official sites.", "Effect: With one shared link, all the hip places are instantly pinned to your app."], tip: "Tip: Import existing data instead of searching from scratch." },
+                    { t: "Why You Still Need a Little Cash", i: ["Street Food: Bungeoppang (붕어빵), Tteokbokki (떡볶이), etc., are usually cash-only.", "Transit Recharging: Some older station machines only accept cash.", "Underground Shopping: You can often get discounts when paying in cash.", "Look for 'Global ATM' signs to withdraw cash using overseas cards."], tip: "Tip: Always carry emergency cash for analog transactions." },
+                    { t: "'Always Tag Off!' – Transfer & Exit Tips", i: ["Tag Off: Always tag your card when exiting; otherwise, you may be charged a penalty fare.", "30-Minute Rule: You must transfer within 30 minutes to get discounted transfers.", "One card per person required for discounts."], tip: "Tip: Tagging off is a mandatory process, not optional." }
+                ],
+                D: [
+                    { t: "The Basic Flow: How to Dine Like a Local", i: ["Upon entering, check if you can seat yourself or if you need to be seated by staff.", "Check for signs that say 'Self' (셀프) for water or side dishes. If you see one, serve yourself.", "Observe the environment to decide if you should order immediately or wait.", "Payment is usually made upon exiting, but double-check if it's 'Pay-first' (선불 / Seon-bul)."], tip: "Tip: Remember the flow 'Seat → Order → Pay at exit'." },
+                    { t: "When to Take Initiative (Don't Just Wait)", i: ["Staff often don't come to your table automatically; call them by saying 'Sajangnim' (사장님 / Boss).", "Just staring at the menu might mean no one will approach you.", "In bars or pubs, you are usually required to order at least one food item (Anju / 안주)." ], tip: "Tip: The system is not always 'wait for service to come to you'." },
+                    { t: "Understanding Pricing & Portions", i: ["Most menu prices are per person ('1인분' / Il-in-bun).", "Always check for phrases like '2인 이상' (I-in-i-sang / 2 servings or more).", "Water and basic side dishes (Ban-chan) are usually free of charge.", "Some items, especially meat, have a 'Minimum Order Quantity'."], tip: "Tip: Check for 'Per person' and 'Minimum order' to avoid confusion." },
+                    { t: "4 Essential Phrases for Ordering", i: ["Recommend: 'Chu-cheon me-nyu mwo-ye-yo?' (추천 메뉴 뭐예요?)", "Portion size: 'I-geo myeot in-boon-i-ye-yo?' (이거 몇 인분이에요?)", "Dining alone: 'Hon-ja meo-geo-do dwae-yo?' (혼자 먹어도 돼요?)", "Not spicy: 'An maep-ge ga-neung-hae-yo?' (안 맵게 가능해요?)", "Wrong order: 'Je-ga si-kin me-nyu-wa dal-la-yo.' (제가 시킨 메뉴와 달라요.)" ], tip: "Tip: Simple questions are more effective than complex English." }
+                ]
+            }
+        },
+        th: {
+            startSubTitle: "คุณเป็นนักเที่ยวเกาหลีสายไหน?",
+            startBottomText: "ตอบแค่ 7 ข้อ · ไม่ต้องสมัคร · เปิดครบทุกทริค",
+            startTitle: "ควิซทายใจ<br>สไตล์การท่องเที่ยว", startBtn: "เริ่มทดสอบ", back: "← ย้อนกลับ", restart: "เริ่มใหม่", share: "แชร์ลิงก์",
+            allGuides: "ดูคู่มือเอาตัวรอดทั้งหมด", backResult: "← กลับไปที่ผลลัพธ์", allTitle: "คู่มือเอาตัวรอดทั้งหมด",
+            resultLabel: "นี่คือชุดเครื่องมือเอาตัวรอดของคุณ!", cheatTitle: "คู่มือเอาตัวรอด",
+            cheatCodePrefix: "สูตรลับ",
+            labels: { p1: "PART 1. ก่อนออกเดินทาง — ช่วงเตรียมตัว", p2: "PART 2. ถึงเกาหลีแล้ว — จุดที่มักจะงง", p3: "PART 3. หน้างาน — วิธีรับมือของคุณ" },
+            radarLabels: [['สกิลดิจิทัล', 'ตัวแม่'], ['สกิลนักสืบ', 'โซเชียล'], ['ไหวพริบ', 'สายเกา'], ['ความไวเป็น', 'ปีศาจ'], ['สกิลเอาตัวรอด', 'ขั้นเทพ']],
+            questions: [
+                { q: "Q1. ก่อนไปเกาหลี ปกติเตรียมตัวอย่างไร?", o: ["จดรายการสถานที่จากโซเชียลมีเดียไว้เพียบเลย", "พยายามจองผ่านแอป แต่ติดตรงการยืนยันตัวตนทุกที", "ใช้ข้อมูลเดิมที่เคยได้ผลครั้งก่อน", "เลือกจุดเช็คอินแค่ไม่กี่ที่ ที่เหลือไปลุยเอาดาบหน้า"] },
+                { q: "Q2. ต้องใช้บัตรเดินทางจากสนามบินเข้าเมือง คุณจะ...", o: ["ตัวเลือกเยอะเกินไป เลือกไม่ถูกว่าต้องใช้อันไหน", "นึกว่าบัตรที่มีจะใช้ได้ แต่ดันแตะไม่ผ่านจนทำอะไรไม่ถูก", "ใช้บัตรเดิมที่เคยใช้ แต่ทำไมตอนนี้มันใช้ไม่ได้ ระบบเปลี่ยนหรือเปล่า", "มีบัตรนะ แต่กังวลเพราะไม่รู้กฎการเปลี่ยนสายหรือเวลาเดินทาง"] },
+                { q: "Q3. ถึงร้านดังแล้ว จะกดคิว…แต่ติดปัญหา", o: ["คนเยอะมาก ไม่รู้ว่าต้องลงชื่ออย่างไร เลยได้แต่ยืนเก้ๆ กังๆ หน้าร้าน", "การลงคิวต้องใช้เบอร์โทรศัพท์เกาหลี และฉันก็ติดตรงนี้อีกแล้ว", "เมื่อก่อนเคยต่อแถวได้เลย แต่ทำไมตอนนี้ต้องกดเครื่องเอา", "ลงคิวได้แล้ว แต่ไม่แน่ใจว่าจะรู้ได้อย่างไรว่าถึงคิวแล้ว เลยได้แต่มองหน้าร้านไว้"] },
+                { q: "Q4. คุณได้ที่นั่งในร้านแล้ว แต่ไม่มีพนักงานมาบริการเลย คุณจะ...", o: ["พยายามหาข้อมูล แต่ก็เยอะจนไม่รู้จะเชื่ออันไหนดี", "นั่งรอเฉยๆ เผื่อจะมีใครสังเกตเห็นเราบ้าง", "รู้สึกว่าเมื่อก่อนเขาจะมาบริการให้นะ ระบบเปลี่ยนไปหรือเปล่า", "ไม่กล้าลุกไปหยิบน้ำเองเพราะกลัวเสียมารยาท ได้แต่มองไปรอบๆ"] },
+                { q: "Q5. คุณจะจัดการเรื่องการจ่ายเงินอย่างไร?", o: ["ตัวเลือกเยอะเกินไป ไม่แน่ใจว่าแบบไหนดีที่สุด", "บัตรใช้ไม่ได้ เริ่มเหงื่อตกทำอะไรไม่ถูก", "เมื่อก่อนดูง่ายกว่านี้นะ ตอนนี้รู้สึกต่างไปสิ้นเชิง", "ลองทุกทางที่มี และขอความช่วยเหลือทันที"] },
+                { q: "Q6. เมนูไม่มีรูปและไม่มีภาษาอังกฤษเลย คุณจะ...", o: ["แอปแปลภาษามีตัวเลือกเยอะเกินไปจนเลือกไม่ถูก", "ลองใช้กล้องแปลภาษาแล้ว แต่ภาพเบลออ่านไม่ออก", "เคยเห็นแบบนี้มาก่อนแต่จำชื่อไม่ได้ สั่งไม่ถูกเลย", "รู้ว่าใช้วิธีชี้เอาได้ แต่ก็รู้สึกเขินๆ เกรงใจ"] },
+                { q: "Q7. สิ่งที่คุณคิดบ่อยที่สุดในทริปนี้คือ...", o: ["\"ข้อมูลในเน็ตเยอะนะ แต่ไม่มีอันไหนที่เหมาะกับเราจริงๆ เลย\"", "\"เตรียมตัวมาดีแล้วนะ แต่ ทำไมระบบยังบล็อกเราอยู่ดี\"", "\"เอ๊ะ เมื่อก่อนไม่ใช่แบบนี้นี่นา ต้องเรียนรู้ใหม่หมดเลยเหรอ\"", "\"โอเค มาถึงตรงนี้แล้ว... แล้วต้องทำอะไรต่อล่ะ\""] }
+            ],
+            results: {
+                A: { tag: "หลักสูตรเพิ่มเติม: พลังแห่งการลงมือทำ", title: "นักสำรวจข้อมูลล้นหลาม", desc: "คุณหาข้อมูลมาแน่นมาก แต่ข้อมูลที่มากเกินไปทำให้คุณลังเล บางครั้งการลงมือทำเลยก็ดีกว่าความสมบูรณ์แบบนะ" },
+                B: { tag: "หลักสูตรเพิ่มเติม: ทักษะดิจิทัล", title: "นักเดินทางสายอนาล็อก", desc: "คุณเตรียมตัวมาพร้อมมาก แต่ ระบบยืนยันตัวตนของเกาหลีมักเป็นอุปสรรค แค่เรียนรู้แอปท้องถิ่นไม่กี่แอป คุณก็จะไปได้ทุกที่" },
+                C: { tag: "หลักสูตรเพิ่มเติม: ทักษะการสังเกตสังคม", title: "ลูกค้าประจำที่ต้องอัปเดตระบบ", desc: "เกาหลีไม่ใช่ที่ใหม่สำหรับคุณ แต่ทุกครั้งที่มาเหมือนต้องเริ่มใหม่เพราะทุกอย่างเปลี่ยนไปไวมาก ได้เวลาอัปเดตข้อมูลแล้ว" },
+                D: { tag: "หลักสูตรเพิ่มเติม: อัปเดตข้อมูลล่าสุด", title: "มือใหม่ตลอดกาล", desc: "คุณผ่านด่านแรกมาได้ แต่ พอเข้ามาข้างในคุณกลับทำตัวไม่ถูก ลองเรียนรู้กฎที่ไม่ได้เขียนไว้ แล้วคุณจะเที่ยวได้อย่างผ่อนคลาย" }
+            },
+            cheats: {
+                A: [
+                    { t: "กลยุทธ์สั่งอาหารและระบบเมนู", i: ["ใช้ฟีเจอร์แปลภาษาแบบเรียลไทม์เพื่อดูข้อมูลจากเมนู", "เครื่องสั่งอาหาร (Kiosk) ใช้งานโดยการเลือกจากรูปภาพหรือไอคอน", "การชี้ไปที่รายการอาหารหรือโต๊ะข้างๆ พร้อมพูดว่า 'อี-กอ-โย' (이거요 / อันนี้) เป็นวิธีที่ได้ผลที่สุด", "บันทึกประโยคสำคัญ เช่น 'ทอล แม็บ-เก แฮ-จู-เซ-โย' (덜 맵게 해주세요 / Deol maep-ge hae-ju-se-yo) ไว้ในแอปเพื่อโชว์ให้พนักงานดู"], tip: "เคล็ดลับ: ตัดปัญหาเรื่องภาษาและสื่อสารด้วยท่าทางร่วมกับเทคโนโลยี" },
+                    { t: "การจัดการข้อมูลการแพ้อาหาร", i: ["จดข้อมูลการแพ้อาหารเป็นภาษาเกาหลีไว้ในแอปโน้ต", "โชว์หน้าจอให้พนักงานดูทันทีเมื่อเข้าร้านเพื่อเลี่ยงการอธิบายที่ยุ่งยาก", "ใช้กล้องแปลภาษาสแกนฉลากส่วนผสมที่ร้านสะดวกซื้อได้ทันที", "สำหรับอาหารเฉพาะทาง (วีแกน/ฮาลาล) ให้ใช้แอปค้นหาเฉพาะทางช่วยกรองตัวเลือก"], tip: "เคล็ดลับ: จัดรูปแบบข้อมูลให้ชัดเจนและยื่นให้พนักงานดูเพื่อความปลอดภัย" },
+                    { t: "วิธีค้นหาร้านอาหารท้องถิ่น", i: ["ใช้แอปรีวิวร้านอาหารของเกาหลีแทนแอปแผนที่ทั่วไปเพื่อให้ได้ข้อมูลที่แม่นยำ", "ค้นหาแฮชแท็กในโซเชียลมีเดียเพื่อดูรีวิวลล่าสุด", "เจ้าของที่พักเป็นแหล่งข้อมูลท้องถิ่นที่เชื่อถือได้มากที่สุด", "อัปเดตข้อมูลจากรีวิวล่าสุด โดยเฉพาะร้านที่อยู่นอกโซล"], tip: "เคล็ดลับ: ให้ความสำคัญกับข้อมูลท้องถิ่นแบบเรียลไทม์มากกว่าการค้นหาทั่วไป" },
+                    { t: "การใช้ระบบชำระเงินและการจอง", i: ["แอปจองอย่างเป็นทางการสำหรับชาวต่างชาติคือช่องทางหลักที่สะดวก", "การทัก DM ในโซเชียลมีเดียเป็นทางลัดที่มีประสิทธิภาพเมื่อระบบหลักมีปัญหา", "พกบัตรเติมเงินหรือบัตรเดินทางไว้เสมอเพื่อให้ครอบคลุมการใช้จ่ายและการเดินทาง"], tip: "เคล็ดลับ: เตรียมเครื่องมือที่ถูกต้องเพื่อลดอุปสรรคในการจ่ายเงินและการจอง" }
+                ],
+                B: [
+                    { t: "การใช้แอปจองสำหรับชาวต่างชาติ", i: ["ติดตั้งแอปจองที่ออกแบบมาสำหรับนักท่องเที่ยวต่างชาติก่อนเป็นอันดับแรก", "สมัครสมาชิกง่ายๆ ผ่าน Email หรือ SNS", "การจองจะยืนยันทันทีหลังจากชำระค่ามัดจำผ่านบัตรต่างประเทศ"], tip: "เคล็ดลับ: ร้านอาหารในแอปสำหรับชาวต่างชาติมีอัตราการจองสำเร็จสูงถึง 100%" },
+                    { t: "ทางลัดเมื่อระบบท้องถิ่นถูกบล็อก", i: ["ถ้าแอปไหนต้องยืนยันตัวตนด้วยเบอร์เกาหลี ให้ข้ามไปใช้ทางอื่นทันที", "อย่าเสียเวลาลองซ้ำๆ ให้ลองทัก DM ไปที่ร้าน", "การสอบถามผ่าน DM มักเป็นวิธีที่เร็วที่สุดในการเช็คที่ว่าง"], tip: "เคล็ดลับ: อย่าเสียเวลากับระบบที่บล็อกคุณ ให้เปลี่ยนไปใช้ทางลัดผ่าน DM แทน" },
+                    { t: "ทำความเข้าใจเรื่องเงินมัดจำและกฎ No-show", i: ["เงินมัดจำไม่ใช่ค่าธรรมเนียม แต่ เป็น 'เงินประกันที่นั่ง' เพื่อยืนยันการเข้าใช้บริการ", "ตรวจสอบให้แน่ใจว่าเงินจะได้รับคืนหรือนำไปหักจากค่าอาหารตอนจ่ายจริง"], tip: "เคล็ดลับ: มั่นใจได้ว่านี่คือกระบวนการเพื่อล็อคที่นั่งของคุณ ไม่ใช่การจ่ายเงินฟรี" },
+                    { t: "ขั้นตอนการเข้าร้านหน้างาน", i: ["เตรียมหลักฐานการจองให้พร้อมก่อนถึงร้าน", "โชว์หน้าจอให้พนักงานดูและพูดว่า 'เย-ยัก-แฮ스-ซึม-นิ-ดะ' (예약했습니다 / I have a reservation)", "หากมีเครื่องกดคิว ให้สอบถามพนักงานก่อนเพื่อความแน่ใจ"], tip: "เคล็ดลับ: โชว์หน้าจอ → พนักงานยืนยัน → เข้าสู่ระบบสำเร็จ" }
+                ],
+                C: [
+                    { t: "วิธีเลือกบัตรเดินทางที่เหมาะกับคุณ", i: ["สำหรับสายเที่ยวคุ้ม: บัตรเดินทางแบบไม่จำกัดเที่ยว", "สำหรับสายสะดวก: บัตรเติมเงินมาตรฐาน (T-money) ใช้จ่ายแท็กซี่และร้านสะดวกซื้อได้", "สำหรับสาย All-in-One: บัตรเติมเงินสกุลต่างชาติที่ใช้เป็นบัตรเดบิตได้", "สำหรับสายท่องเที่ยว: บัตรท่องเที่ยวเมือง"], tip: "เคล็ดลับ: เลือกบัตรที่สอดคล้องกับแผนการเดินทางของคุณ" },
+                    { t: "ทางลัดแผนที่ ไม่ต้องเสียเวลาค้นหาเอง", i: ["ปัญหา: การค้นหาเป็นภาษาอังกฤษมักได้ข้อมูลจำกัด", "วิธีแก้: ไปคัดลอกลิงก์ 'Bookmark Map Lists' ที่อินฟลูเอนเซอร์แชร์ไว้", "ผลลัพธ์: เพียงลิงก์เดียว สถานที่ฮิปๆ ทั้งหมดจะปรากฏบนแผนที่ของคุณทันที"], tip: "เคล็ดลับ: นำเข้าข้อมูลที่มีอยู่แล้ว แทนที่จะเริ่มหาใหม่จากศูนย์" },
+                    { t: "ทำไมยังต้องพกเงินสดติดตัวไว้บ้าง", i: ["อาหารริมทาง เช่น พุงออปัง (붕어빵), ต็อกบกกี (떡볶이) มักจะรับเฉพาะเงินสด", "การเติมเงินบัตรในบางสถานีอาจรับเฉพาะเงินสด", "ตลาดใต้ดินมักจะได้ส่วนลดหากจ่ายด้วยเงินสด", "มองหาตู้ 'Global ATM' เพื่อกดเงินสดด้วยบัตรต่างประเทศ"], tip: "เคล็ดลับ: พกเงินสดติดตัวไว้เสมอสำหรับธุรกรรมแบบอนาล็อก" },
+                    { t: "กฎการแตะบัตรและทางลัดการเปลี่ยนสาย", i: ["ต้องแตะบัตรตอนลงทุกครั้ง (Tag Off) ไม่เช่นนั้นอาจโดนหักเงินเพิ่ม", "ต้องเปลี่ยนสายภายใน 30 นาทีถึงจะได้ส่วนลดการต่อรถ", "ใช้บัตร 1 ใบต่อ 1 คนเท่านั้นเพื่อรับสิทธิ์ส่วนลด"], tip: "เคล็ดลับ: การแตะบัตรตอนลงคือสิ่งที่ต้องทำ ไม่ใช่ทางเลือก" }
+                ],
+                D: [
+                    { t: "ลำดับขั้นตอน: ทานอาหารแบบคนท้องถิ่น", i: ["เข้าร้าน → เช็กป้ายบริการตนเอง → จ่ายเงินตอนออก", "สังเกตป้ายสำหรับน้ำดื่มหรือเครื่องเคียง ถ้ามีให้ไปหยิบเอง", "ดูสภาพแวดล้อมว่าควรสั่งอาหารทันที หรือรอพนักงาน", "ปกติจะจ่ายเงินที่เคาน์เตอร์ตอนออก แต่ ให้เช็กว่าต้องจ่ายก่อนหรือไม่"], tip: "เคล็ดลับ: จำลำดับง่ายๆ: นั่ง → สั่ง → จ่ายเงินที่ประตูขาออก" },
+                    { t: "อย่ามัวแต่รอ ต้องเป็นฝ่ายรุก", i: ["พนักงานมักไม่เดินมาที่โต๊ะโดยอัตโนมัติ ให้เรียกพนักงานว่า 'ซา-จัง-นิม' (사장님 / Boss) เมื่อต้องการสั่ง", "ถ้ามัวแต่นั่งจ้องเมนู พนักงานอาจคิดว่าคุณยังไม่พร้อมสั่ง", "ในบาร์หรือผับ ปกติจะต้องสั่งกับแกล้ม (안주 / อัน-จู) อย่างน้อยหนึ่งอย่าง"], tip: "เคล็ดลับ: ระบบที่นี่ไม่ใช่การ 'นั่งรอให้เขาเดินมาบริการ' เสมอไป" },
+                    { t: "ทำความเข้าใจเรื่องราคาและปริมาณ", i: ["ราคาส่วนใหญ่มักจะเป็นราคาต่อหนึ่งคน ('1인분' / Il-in-bun)", "เช็กเงื่อนไขการสั่งขั้นต่ำเสมอ (เช่น '2인 이상' / 2 ที่ขึ้นไป)", "น้ำดื่มและเครื่องเคียงพื้นฐาน (반찬 / พัน-ชัน) ส่วนใหญ่มักจะฟรี", "เมนูปิ้งย่างมักจะมีจำนวนสั่งขั้นต่ำกำหนดไว้"], tip: "เคล็ดลับ: เช็กราคาต่อคน 및จำนวนสั่งขั้นต่ำเพื่อเลี่ยงความสับสน" },
+                    { t: "5 ประโยคสำคัญสำหรับการสั่งอาหาร", i: [
+                        "ขอคำแนะนำ: 'ชู-ชอน เม-นู มวอ-เย-โย?' (추천 메뉴 뭐예요? / Chu-cheon me-nyu mwo-ye-yo?)", 
+                        "อี-กอ มย็อด อิน-บุน อี-เย-โย?' (이거 몇 인분이에요? / I-geo myeot in-bun-i-ye-yo?)", 
+                        "ทานคนเดียว: 'ฮน-จา ม็อก-ออ-โด ดแว-โย?' (혼자 먹어도 돼요? / Hon-ja meo-geo-do dwae-yo?)", 
+                        "อัน แม็บ-เก กา-นึง-แฮ-โย?' (안 맵게 가능해요? / An maep-ge ga-neung-hae-yo?)", 
+                        "ออเดอร์ผิด: 'เช-กา ชี-คิน เม-นู-วา ทัล-ลา-โย' (제가 시킨 메뉴와 달라요. / Je-ga si-kin me-nyu-wa dal-la-yo.)"
+                    ], tip: "เคล็ดลับ: ประโยคเกาหลีง่ายๆ ได้ผลดีกว่าภาษาอังกฤษที่ซับซ้อน" }
+                ]
+            }
+        }
+    };
+
+    function changeLanguage(lang) {
+        currentLang = lang;
+        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById(`btn-${lang}`).classList.add('active');
+        updateStaticText();
+        if (currentStep <= totalQuestions) { renderQuestion(); } 
+        else if (document.getElementById('step-result').classList.contains('active')) { showResult(true); } 
+        else if (document.getElementById('step-all-guides').classList.contains('active')) { showAllGuides(); }
+    }
+
+    function updateStaticText() {
+        const text = i18n[currentLang];
+        document.getElementById('start-sub-title').innerText = text.startSubTitle;
+        document.getElementById('start-title').innerHTML = text.startTitle;
+        document.getElementById('start-btn-text').innerText = text.startBtn;
+        document.getElementById('start-bottom-text').innerText = text.startBottomText;
+
+        // 시작 버튼 이미지 언어별 분기 처리
+        const startBtn = document.getElementById('start-btn-text');
+        if (currentLang === 'th') {
+            startBtn.style.setProperty('background', "url('https://drive.google.com/thumbnail?id=1gQ6D18WpAlbMNFLshf6WcnXb1XXspHEB&sz=w500') no-repeat center center", 'important');
+        } else {
+            startBtn.style.setProperty('background', "url('https://drive.google.com/thumbnail?id=1fUvS64anZIvnCeD17FbQu49Nxc96vxjI&sz=w500') no-repeat center center", 'important');
+        }
+        startBtn.style.setProperty('background-size', 'contain', 'important');
+
+        document.getElementById('restart-btn').innerText = text.restart;
+        document.getElementById('share-btn').innerText = text.share;
+        document.getElementById('share-btn-all').innerText = text.share;
+        document.getElementById('all-guides-btn').innerText = text.allGuides;
+        document.getElementById('back-to-result-btn').innerText = text.backResult;
+        document.getElementById('all-cheat-codes-title').innerText = text.allTitle;
+        document.getElementById('result-label-text').innerHTML = text.resultLabel;
+        document.getElementById('cheat-codes-title').innerText = text.cheatTitle;
+        for(let i=2; i<=7; i++) { 
+            const btn = document.getElementById(`back-q${i}`); 
+            if(btn) btn.innerText = text.back; 
+        }
+    }
+
+    function renderQuestion() {
+        const qIndex = currentStep - 1;
+        const qData = i18n[currentLang].questions[qIndex];
+        const label = i18n[currentLang].labels;
+        let partLabel = currentStep === 1 ? label.p1 : (currentStep <= 5 ? label.p2 : label.p3);
+        const labelEl = document.getElementById(`label-q${currentStep}`);
+        const textEl = document.getElementById(`text-q${currentStep}`);
+        const optsContainer = document.getElementById(`opts-q${currentStep}`);
+        if(labelEl) labelEl.innerText = partLabel;
+        if(textEl) textEl.innerText = qData.q;
+        if(optsContainer) {
+            optsContainer.innerHTML = '';
+            ['A', 'B', 'C', 'D'].forEach((choice, idx) => {
+                if (qData.o[idx]) {
+                    const div = document.createElement('div');
+                    div.className = 'bubble';
+                    div.innerText = qData.o[idx];
+                    div.onclick = () => selectOption(choice);
+                    optsContainer.appendChild(div);
+                }
+            });
+        }
+    }
+
+    function nextStep(step) {
+        document.querySelectorAll('.cut').forEach(el => el.classList.remove('active'));
+        const targetId = step === 'result' ? 'step-result' : (step === 'all-guides' ? 'step-all-guides' : 'step-' + step);
+        const target = document.getElementById(targetId);
+        if (target) target.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        const pw = document.getElementById('progressWrapper');
+        const pf = document.getElementById('progressFill');
+        if (typeof step === 'number' && step > 0 && step <= totalQuestions) {
+            pw.style.display = 'block'; 
+            pf.style.width = ((step / totalQuestions) * 100) + '%'; 
+            renderQuestion();
+        } else { pw.style.display = 'none'; }
+        const langNav = document.querySelector('.lang-nav');
+        if (langNav) { langNav.style.display = (step === 0 || targetId === 'step-0') ? 'flex' : 'none'; }
+    }
+
+    function selectOption(choice) { 
+        userChoices.push(choice); 
+        if (currentStep < totalQuestions) { currentStep++; nextStep(currentStep); } 
+        else { showResult(); }
+    }
+
+    function goBack() { if (currentStep > 1) { userChoices.pop(); currentStep--; nextStep(currentStep); } }
+
+    let radarChart;
+    let savedWinner = 'A';
+
+    function drawRadar(resultType) {
+        const canvas = document.getElementById('radarChart');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const profiles = { A: [4, 5, 3, 2, 3], B: [1, 3, 4, 3, 4], C: [4, 3, 2, 2, 3], D: [3, 2, 4, 4, 3] };
+        
+        const rawLabels = i18n[currentLang].radarLabels;
+        const dataPoints = profiles[resultType];
+        const maxVal = Math.max(...dataPoints);
+
+        // Responsive adjustments for labels
+        if (currentLang === 'en') {
+            canvas.style.width = '83%';
+            canvas.style.height = '83%';
+            canvas.style.transform = 'translateY(35px)';
+        } else {
+            canvas.style.width = '95%';
+            canvas.style.height = '95%';
+            canvas.style.transform = 'translateY(28px)';
+        }
+
+        const finalLabels = rawLabels.map((label, index) => {
+            if (dataPoints[index] === maxVal) {
+                if (Array.isArray(label)) {
+                    const newLabel = [...label];
+                    newLabel[0] = "✨ " + newLabel[0];
+                    return newLabel;
+                }
+                return "✨ " + label;
+            }
+            return label;
+        });
+
+        if (radarChart) radarChart.destroy();
+        radarChart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: finalLabels,
+                datasets: [{ 
+                    data: dataPoints, 
+                    backgroundColor: 'rgba(0, 0, 0, 0.05)', 
+                    borderColor: '#000', 
+                    borderWidth: 2, 
+                    pointBackgroundColor: dataPoints.map(v => v === maxVal ? '#D4AF37' : '#000'),
+                    pointBorderColor: dataPoints.map(v => v === maxVal ? '#D4AF37' : '#000'),
+                    pointRadius: 4 
+                }]
+            },
+            options: { 
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: { 
+                    r: { 
+                        suggestedMin: 0, 
+                        suggestedMax: 5, 
+                        ticks: { display: false, stepSize: 1 },
+                        pointLabels: {
+                            font: (context) => {
+                                const isMax = dataPoints[context.index] === maxVal;
+                                return {
+                                    size: 14,
+                                    weight: isMax ? 'bold' : '300',
+                                    family: "'Noto Sans', sans-serif"
+                                };
+                            },
+                            color: (context) => dataPoints[context.index] === maxVal ? '#D4AF37' : '#000',
+                            padding: 5
+                        }
+                    } 
+                }, 
+                plugins: { legend: { display: false } } 
+            }
+        });
+    }
+
+    function showResult(isLanguageRefresh = false) {
+        if (!isLanguageRefresh) {
+            const tallies = { A: 0, B: 0, C: 0, D: 0 }; 
+            userChoices.forEach(c => tallies[c]++);
+            savedWinner = Object.keys(tallies).reduce((a, b) => tallies[a] > tallies[b] ? a : b);
+
+            // GTM DataLayer Push (SubmitForm Event for Tiktok Pixel)
+            // 브라우저 탭(세션) 단위로 중복 발송 방지 로직 적용
+            if (!sessionStorage.getItem('tt_SubmitForm_fired')) {
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({
+                    'event': 'SubmitForm'
+                });
+                sessionStorage.setItem('tt_SubmitForm_fired', 'true');
+            }
+        }
+        
+        const resData = i18n[currentLang].results[savedWinner];
+        document.getElementById('res-tag').innerText = resData.tag;
+        document.getElementById('res-title').innerText = resData.title;
+        document.getElementById('res-desc').innerText = resData.desc;
+        
+        const cheats = i18n[currentLang].cheats[savedWinner];
+        const prefix = i18n[currentLang].cheatCodePrefix;
+        const grid = document.getElementById('dynamicGuideGrid');
+        grid.innerHTML = '';
+        cheats.forEach((c, idx) => {
+            const panel = document.createElement('div'); 
+            panel.className = 'guide-panel';
+            const list = c.i.map(li => `<li>${li}</li>`).join('');
+            panel.innerHTML = `<div class="guide-num">${prefix} #${idx + 1}</div><div class="guide-title">${c.t}</div><ul>${list}</ul><div class="guide-tip">${c.tip}</div>`;
+            grid.appendChild(panel);
+        });
+        
+        nextStep('result'); 
+        drawRadar(savedWinner);
+    }
+
+    function showAllGuides() {
+        const container = document.getElementById('allGuidesContainer');
+        container.innerHTML = '';
+        const prefix = i18n[currentLang].cheatCodePrefix;
+        ['A', 'B', 'C', 'D'].forEach(type => {
+            const header = document.createElement('div');
+            header.className = 'type-header';
+            header.innerText = i18n[currentLang].results[type].title;
+            container.appendChild(header);
+            const guideGrid = document.createElement('div');
+            guideGrid.className = 'guide-grid';
+            i18n[currentLang].cheats[type].forEach((c, idx) => {
+                const panel = document.createElement('div');
+                panel.className = 'guide-panel';
+                const list = c.i.map(li => `<li>${li}</li>`).join('');
+                panel.innerHTML = `<div class="guide-num">${prefix} #${idx + 1}</div><div class="guide-title">${c.t}</div><ul>${list}</ul><div class="guide-tip">${c.tip}</div>`;
+                guideGrid.appendChild(panel);
+            });
+            container.appendChild(guideGrid);
+        });
+        nextStep('all-guides');
+    }
+
+    function shareLink(btnId) {
+        const url = window.location.href.split('?')[0] + '?utm_source=share';
+        const tempInput = document.createElement('input');
+        tempInput.value = url; 
+        document.body.appendChild(tempInput);
+        tempInput.select(); 
+        document.execCommand('copy');
+        document.body.removeChild(tempInput);
+        
+        const shareBtn = document.getElementById(btnId);
+        const originalText = shareBtn.innerText;
+        shareBtn.innerText = currentLang === 'en' ? "Copied!" : "คัดลอกแล้ว!";
+        setTimeout(() => { shareBtn.innerText = originalText; }, 2000);
+    }
+
+    window.onload = () => updateStaticText();
+</script>
+</body>
+</html>
