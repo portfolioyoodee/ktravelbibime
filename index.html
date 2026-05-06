@@ -477,7 +477,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         
         <div class="action-container">
             <div class="action-row">
-                <button class="action-btn" onclick="location.reload()" id="restart-btn"></button>
+                <button class="action-btn" onclick="restartQuiz()" id="restart-btn"></button>
                 <button class="action-btn" onclick="shareLink('share-btn')" id="share-btn"></button>
             </div>
             <button class="action-btn full" onclick="showAllGuides()" id="all-guides-btn"></button>
@@ -933,6 +933,31 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         const originalText = shareBtn.innerText;
         shareBtn.innerText = currentLang === 'en' ? "Copied!" : "คัดลอกแล้ว!";
         setTimeout(() => { shareBtn.innerText = originalText; }, 2000);
+    }
+
+    function restartQuiz() {
+        userChoices = [null, null, null, null, null, null, null];
+        
+        document.querySelectorAll('.cut').forEach(el => el.classList.remove('active'));
+        const step0 = document.getElementById('step-0');
+        const stepQ = document.getElementById('step-questions');
+        if (step0) step0.classList.add('active');
+        if (stepQ) stepQ.classList.add('active');
+        
+        const pw = document.getElementById('progressWrapper');
+        const pf = document.getElementById('progressFill');
+        if (pw && pf) {
+            pw.style.display = 'block';
+            pf.style.width = '0%';
+        }
+        
+        const langNav = document.querySelector('.lang-nav');
+        if (langNav) langNav.style.display = 'flex';
+        
+        renderAllQuestions();
+        updateSubmitButtonState();
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     window.onload = () => {
