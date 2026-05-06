@@ -193,6 +193,14 @@
             transform: scale(0.98);
         }
 
+        .bubble.selected {
+            background-color: #000;
+            color: #fff;
+        }
+        .bubble.selected::after {
+            border-color: #000 transparent transparent transparent;
+        }
+
         .section-label {
             font-size: 0.85rem;
             font-weight: 900;
@@ -395,64 +403,64 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </nav>
         <div id="start-sub-title"></div>
         <h1 class="title-text" id="start-title">Korea Travel<br>Survival Test</h1>
-        <div class="bubble" onclick="nextStep(1)" id="start-btn-text">Tap to start</div>
+        <div class="bubble" onclick="nextStep('questions')" id="start-btn-text">Tap to start</div>
         <div id="start-bottom-text"></div>
     </section>
 
     <!-- Questions 1-7 -->
-    <section class="cut" id="step-1">
-        <img src="https://drive.google.com/thumbnail?id=1R_HSKrbi0tlM6sWKpVG6qBSYQWgr_J2s&sz=w800" class="question-top-img" loading="lazy">
-        <div class="section-label" id="label-q1"></div>
-        <div class="narration-box" id="text-q1"></div>
-        <div class="options-container" id="opts-q1"></div>
-    </section>
-    
-    <section class="cut bg-screentone-2" id="step-2">
-        <img src="https://drive.google.com/thumbnail?id=1p1sAtg9ju4RvzuiEqdrS2cl9c_4hAZ86&sz=w800" class="question-top-img" loading="lazy">
-        <div class="section-label" id="label-q2"></div>
-        <div class="narration-box" id="text-q2"></div>
-        <div class="options-container" id="opts-q2"></div>
-        <button class="back-btn" onclick="goBack()" id="back-q2"></button>
-    </section>
+    <section class="cut" id="step-questions" style="padding: 0; justify-content: flex-start;">
+        <div class="question-block" id="q-block-1" style="padding: 40px 20px;">
+            <img src="https://drive.google.com/thumbnail?id=1R_HSKrbi0tlM6sWKpVG6qBSYQWgr_J2s&sz=w800" class="question-top-img" loading="lazy">
+            <div class="section-label" id="label-q1"></div>
+            <div class="narration-box" id="text-q1"></div>
+            <div class="options-container" id="opts-q1"></div>
+        </div>
+        
+        <div class="question-block bg-screentone-2" id="q-block-2" style="padding: 40px 20px;">
+            <img src="https://drive.google.com/thumbnail?id=1p1sAtg9ju4RvzuiEqdrS2cl9c_4hAZ86&sz=w800" class="question-top-img" loading="lazy">
+            <div class="section-label" id="label-q2"></div>
+            <div class="narration-box" id="text-q2"></div>
+            <div class="options-container" id="opts-q2"></div>
+        </div>
 
-    <section class="cut" id="step-3">
-        <img src="https://drive.google.com/thumbnail?id=1RjBP9mfmiJnWbugWHHRaO3nlayhM5mao&sz=w800" class="question-top-img" loading="lazy">
-        <div class="section-label" id="label-q3"></div>
-        <div class="narration-box" id="text-q3"></div>
-        <div class="options-container" id="opts-q3"></div>
-        <button class="back-btn" onclick="goBack()" id="back-q3"></button>
-    </section>
+        <div class="question-block" id="q-block-3" style="padding: 40px 20px;">
+            <img src="https://drive.google.com/thumbnail?id=1RjBP9mfmiJnWbugWHHRaO3nlayhM5mao&sz=w800" class="question-top-img" loading="lazy">
+            <div class="section-label" id="label-q3"></div>
+            <div class="narration-box" id="text-q3"></div>
+            <div class="options-container" id="opts-q3"></div>
+        </div>
 
-    <section class="cut bg-screentone-1" id="step-4">
-        <img src="https://drive.google.com/thumbnail?id=1eBNO8t4APbMvpXfmhC_6FJCc0-sP8013&sz=w800" class="question-top-img" loading="lazy">
-        <div class="section-label" id="label-q4"></div>
-        <div class="narration-box" id="text-q4"></div>
-        <div class="options-container" id="opts-q4"></div>
-        <button class="back-btn" onclick="goBack()" id="back-q4"></button>
-    </section>
+        <div class="question-block bg-screentone-1" id="q-block-4" style="padding: 40px 20px;">
+            <img src="https://drive.google.com/thumbnail?id=1eBNO8t4APbMvpXfmhC_6FJCc0-sP8013&sz=w800" class="question-top-img" loading="lazy">
+            <div class="section-label" id="label-q4"></div>
+            <div class="narration-box" id="text-q4"></div>
+            <div class="options-container" id="opts-q4"></div>
+        </div>
 
-    <section class="cut" id="step-5">
-        <img src="https://drive.google.com/thumbnail?id=1OqVwirstcqb8it66tiSvKK5Uz9QrbpMm&sz=w800" class="question-top-img" loading="lazy">
-        <div class="section-label" id="label-q5"></div>
-        <div class="narration-box" id="text-q5"></div>
-        <div class="options-container" id="opts-q5"></div>
-        <button class="back-btn" onclick="goBack()" id="back-q5"></button>
-    </section>
+        <div class="question-block" id="q-block-5" style="padding: 40px 20px;">
+            <img src="https://drive.google.com/thumbnail?id=1OqVwirstcqb8it66tiSvKK5Uz9QrbpMm&sz=w800" class="question-top-img" loading="lazy">
+            <div class="section-label" id="label-q5"></div>
+            <div class="narration-box" id="text-q5"></div>
+            <div class="options-container" id="opts-q5"></div>
+        </div>
 
-    <section class="cut bg-screentone-2" id="step-6">
-        <img src="https://drive.google.com/thumbnail?id=1RJNTNkxL0NgcAG0YSSOIe8Om_AC_Xfsx&sz=w800" class="question-top-img" loading="lazy">
-        <div class="section-label" id="label-q6"></div>
-        <div class="narration-box" id="text-q6"></div>
-        <div class="options-container" id="opts-q6"></div>
-        <button class="back-btn" onclick="goBack()" id="back-q6"></button>
-    </section>
+        <div class="question-block bg-screentone-2" id="q-block-6" style="padding: 40px 20px;">
+            <img src="https://drive.google.com/thumbnail?id=1RJNTNkxL0NgcAG0YSSOIe8Om_AC_Xfsx&sz=w800" class="question-top-img" loading="lazy">
+            <div class="section-label" id="label-q6"></div>
+            <div class="narration-box" id="text-q6"></div>
+            <div class="options-container" id="opts-q6"></div>
+        </div>
 
-    <section class="cut" id="step-7">
-        <img src="https://drive.google.com/thumbnail?id=19ypKj8wMgzEyJcoGpyXvOXEqX9wmCduZ&sz=w800" class="question-top-img" loading="lazy">
-        <div class="section-label" id="label-q7"></div>
-        <div class="narration-box" id="text-q7"></div>
-        <div class="options-container" id="opts-q7"></div>
-        <button class="back-btn" onclick="goBack()" id="back-q7"></button>
+        <div class="question-block" id="q-block-7" style="padding: 40px 20px; padding-bottom: 80px;">
+            <img src="https://drive.google.com/thumbnail?id=19ypKj8wMgzEyJcoGpyXvOXEqX9wmCduZ&sz=w800" class="question-top-img" loading="lazy">
+            <div class="section-label" id="label-q7"></div>
+            <div class="narration-box" id="text-q7"></div>
+            <div class="options-container" id="opts-q7"></div>
+        </div>
+
+        <div id="submit-section" style="padding: 20px 20px 120px 20px; display: flex; justify-content: center; width: 100%;">
+            <button class="action-btn full" id="submit-btn" style="max-width: 320px;"></button>
+        </div>
     </section>
 
     <!-- RESULTS -->
@@ -492,8 +500,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     let currentLang = 'th';
-    let currentStep = 1;
-    let userChoices = [];
+    let userChoices = [null, null, null, null, null, null, null];
     const totalQuestions = 7;
 
     const i18n = {
@@ -504,6 +511,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             allGuides: "Explore all survival cheat codes", backResult: "← Back to Result", allTitle: "All Cheat Codes",
             resultLabel: "Your survival kit,<br>curated for your vibe.", cheatTitle: "Survival Cheat Codes",
             cheatCodePrefix: "Cheat Code",
+            submitBtn: "See Test Results",
+            incompleteMsg: "Please answer all questions.",
             labels: { p1: "PART 1. Before You Leave — The Research Phase", p2: "PART 2. Arrived in Korea — The Friction Points", p3: "PART 3. On the Ground — How You React" },
             radarLabels: [['Digital', 'Skills'], ['Info', 'Search'], ['Social', 'Chameleon'], ['Action'], ['Crisis', 'Mgt']],
             questions: [
@@ -555,6 +564,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             allGuides: "ดูคู่มือเอาตัวรอดทั้งหมด", backResult: "← กลับไปที่ผลลัพธ์", allTitle: "คู่มือเอาตัวรอดทั้งหมด",
             resultLabel: "นี่คือชุดเครื่องมือเอาตัวรอดของคุณ!", cheatTitle: "คู่มือเอาตัวรอด",
             cheatCodePrefix: "สูตรลับ",
+            submitBtn: "ดูผลการทดสอบ",
+            incompleteMsg: "กรุณาตอบคำถามให้ครบทุกข้อ",
             labels: { p1: "PART 1. ก่อนออกเดินทาง — ช่วงเตรียมตัว", p2: "PART 2. ถึงเกาหลีแล้ว — จุดที่มักจะงง", p3: "PART 3. หน้างาน — วิธีรับมือของคุณ" },
             radarLabels: [['สกิลดิจิทัล', 'ตัวแม่'], ['สกิลนักสืบ', 'โซเชียล'], ['ไหวพริบ', 'สายเกา'], ['ความไวเป็น', 'ปีศาจ'], ['สกิลเอาตัวรอด', 'ขั้นเทพ']],
             questions: [
@@ -612,9 +623,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
         document.getElementById(`btn-${lang}`).classList.add('active');
         updateStaticText();
-        if (currentStep <= totalQuestions) { renderQuestion(); } 
-        else if (document.getElementById('step-result').classList.contains('active')) { showResult(true); } 
-        else if (document.getElementById('step-all-guides').classList.contains('active')) { showAllGuides(); }
+        if (document.getElementById('step-questions') && document.getElementById('step-questions').classList.contains('active')) { 
+            renderAllQuestions(); 
+        } else if (document.getElementById('step-result').classList.contains('active')) { 
+            showResult(true); 
+        } else if (document.getElementById('step-all-guides').classList.contains('active')) { 
+            showAllGuides(); 
+        } else {
+            renderAllQuestions();
+        }
     }
 
     function updateStaticText() {
@@ -641,60 +658,119 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         document.getElementById('all-cheat-codes-title').innerText = text.allTitle;
         document.getElementById('result-label-text').innerHTML = text.resultLabel;
         document.getElementById('cheat-codes-title').innerText = text.cheatTitle;
-        for(let i=2; i<=7; i++) { 
-            const btn = document.getElementById(`back-q${i}`); 
-            if(btn) btn.innerText = text.back; 
-        }
+        updateSubmitButtonState();
     }
 
-    function renderQuestion() {
-        const qIndex = currentStep - 1;
-        const qData = i18n[currentLang].questions[qIndex];
+    function renderAllQuestions() {
+        const qDataList = i18n[currentLang].questions;
         const label = i18n[currentLang].labels;
-        let partLabel = currentStep === 1 ? label.p1 : (currentStep <= 5 ? label.p2 : label.p3);
-        const labelEl = document.getElementById(`label-q${currentStep}`);
-        const textEl = document.getElementById(`text-q${currentStep}`);
-        const optsContainer = document.getElementById(`opts-q${currentStep}`);
-        if(labelEl) labelEl.innerText = partLabel;
-        if(textEl) textEl.innerText = qData.q;
-        if(optsContainer) {
-            optsContainer.innerHTML = '';
-            ['A', 'B', 'C', 'D'].forEach((choice, idx) => {
-                if (qData.o[idx]) {
-                    const div = document.createElement('div');
-                    div.className = 'bubble';
-                    div.innerText = qData.o[idx];
-                    div.onclick = () => selectOption(choice);
-                    optsContainer.appendChild(div);
-                }
-            });
+
+        for(let i = 1; i <= 7; i++) {
+            const qIndex = i - 1;
+            const qData = qDataList[qIndex];
+            let partLabel = i === 1 ? label.p1 : (i <= 5 ? label.p2 : label.p3);
+            
+            const labelEl = document.getElementById(`label-q${i}`);
+            const textEl = document.getElementById(`text-q${i}`);
+            const optsContainer = document.getElementById(`opts-q${i}`);
+            
+            if(labelEl) labelEl.innerText = partLabel;
+            if(textEl) textEl.innerText = qData.q;
+            
+            if(optsContainer) {
+                optsContainer.innerHTML = '';
+                ['A', 'B', 'C', 'D'].forEach((choice, idx) => {
+                    if (qData.o[idx]) {
+                        const div = document.createElement('div');
+                        div.className = 'bubble';
+                        if (userChoices[qIndex] === choice) {
+                            div.classList.add('selected');
+                        }
+                        div.innerText = qData.o[idx];
+                        div.onclick = () => selectOption(qIndex, choice);
+                        optsContainer.appendChild(div);
+                    }
+                });
+            }
         }
     }
 
     function nextStep(step) {
         document.querySelectorAll('.cut').forEach(el => el.classList.remove('active'));
-        const targetId = step === 'result' ? 'step-result' : (step === 'all-guides' ? 'step-all-guides' : 'step-' + step);
+        const targetId = step === 'result' ? 'step-result' : (step === 'all-guides' ? 'step-all-guides' : (step === 'questions' ? 'step-questions' : 'step-' + step));
         const target = document.getElementById(targetId);
         if (target) target.classList.add('active');
         window.scrollTo({ top: 0, behavior: 'smooth' });
+        
         const pw = document.getElementById('progressWrapper');
         const pf = document.getElementById('progressFill');
-        if (typeof step === 'number' && step > 0 && step <= totalQuestions) {
+        if (step === 'questions') {
             pw.style.display = 'block'; 
-            pf.style.width = ((step / totalQuestions) * 100) + '%'; 
-            renderQuestion();
-        } else { pw.style.display = 'none'; }
+            const answeredCount = userChoices.filter(c => c !== null).length;
+            pf.style.width = ((answeredCount / totalQuestions) * 100) + '%'; 
+            renderAllQuestions();
+        } else { 
+            pw.style.display = 'none'; 
+        }
         const langNav = document.querySelector('.lang-nav');
         if (langNav) { langNav.style.display = (step === 0 || targetId === 'step-0') ? 'flex' : 'none'; }
     }
 
-    function selectOption(choice) { 
-        userChoices.push(choice); 
-        if (currentStep < totalQuestions) { currentStep++; nextStep(currentStep); } 
-        else { showResult(); }
+    function selectOption(qIndex, choice) { 
+        userChoices[qIndex] = choice; 
+        renderAllQuestions();
+        updateSubmitButtonState();
+
+        const answeredCount = userChoices.filter(c => c !== null).length;
+        const pw = document.getElementById('progressWrapper');
+        const pf = document.getElementById('progressFill');
+        if (pw && pf) {
+            pw.style.display = 'block'; 
+            pf.style.width = ((answeredCount / totalQuestions) * 100) + '%'; 
+        }
+
+        if (answeredCount < totalQuestions) {
+            let nextUnanswered = qIndex + 1;
+            while(nextUnanswered < totalQuestions && userChoices[nextUnanswered] !== null) {
+                nextUnanswered++;
+            }
+            if(nextUnanswered < totalQuestions) {
+                const nextBlock = document.getElementById(`q-block-${nextUnanswered + 1}`);
+                if (nextBlock) {
+                    const y = nextBlock.getBoundingClientRect().top + window.scrollY - 60;
+                    window.scrollTo({ top: y, behavior: 'smooth' });
+                }
+            }
+        } else {
+            const submitSec = document.getElementById('submit-section');
+            if(submitSec) {
+                setTimeout(() => {
+                    const y = submitSec.getBoundingClientRect().top + window.scrollY - 60;
+                    window.scrollTo({ top: y, behavior: 'smooth' });
+                }, 300);
+            }
+        }
     }
 
-    function goBack() { if (currentStep > 1) { userChoices.pop(); currentStep--; nextStep(currentStep); } }
+    function updateSubmitButtonState() {
+        const submitBtn = document.getElementById('submit-btn');
+        if(!submitBtn) return;
+        
+        const answeredCount = userChoices.filter(c => c !== null).length;
+        if (answeredCount === totalQuestions) {
+            submitBtn.innerText = i18n[currentLang].submitBtn;
+            submitBtn.style.backgroundColor = '#000';
+            submitBtn.style.borderColor = '#000';
+            submitBtn.style.cursor = 'pointer';
+            submitBtn.onclick = showResult;
+        } else {
+            submitBtn.innerText = i18n[currentLang].incompleteMsg;
+            submitBtn.style.backgroundColor = '#888';
+            submitBtn.style.borderColor = '#888';
+            submitBtn.style.cursor = 'not-allowed';
+            submitBtn.onclick = null;
+        }
+    }
 
     let radarChart;
     let savedWinner = 'A';
@@ -777,7 +853,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     function showResult(isLanguageRefresh = false) {
         if (!isLanguageRefresh) {
             const tallies = { A: 0, B: 0, C: 0, D: 0 }; 
-            userChoices.forEach(c => tallies[c]++);
+            userChoices.forEach(c => { if(c) tallies[c]++; });
             savedWinner = Object.keys(tallies).reduce((a, b) => tallies[a] > tallies[b] ? a : b);
 
             // GTM DataLayer Push (SubmitForm Event for Tiktok Pixel)
