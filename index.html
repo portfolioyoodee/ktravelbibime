@@ -408,7 +408,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </section>
 
     <!-- Questions 1-7 -->
-    <section class="cut" id="step-questions" style="padding: 0; justify-content: flex-start;">
+    <section class="cut active" id="step-questions" style="padding: 0; justify-content: flex-start;">
         <div class="question-block" id="q-block-1" style="padding: 40px 20px;">
             <img src="https://drive.google.com/thumbnail?id=1R_HSKrbi0tlM6sWKpVG6qBSYQWgr_J2s&sz=w800" class="question-top-img" loading="lazy">
             <div class="section-label" id="label-q1"></div>
@@ -696,6 +696,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
 
     function nextStep(step) {
+        if (step === 'questions') {
+            const target = document.getElementById('step-questions');
+            if (target) {
+                const y = target.getBoundingClientRect().top + window.scrollY;
+                window.scrollTo({ top: y, behavior: 'smooth' });
+            }
+            return;
+        }
+
         document.querySelectorAll('.cut').forEach(el => el.classList.remove('active'));
         const targetId = step === 'result' ? 'step-result' : (step === 'all-guides' ? 'step-all-guides' : (step === 'questions' ? 'step-questions' : 'step-' + step));
         const target = document.getElementById(targetId);
@@ -926,7 +935,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         setTimeout(() => { shareBtn.innerText = originalText; }, 2000);
     }
 
-    window.onload = () => updateStaticText();
+    window.onload = () => {
+        updateStaticText();
+        renderAllQuestions();
+        const pw = document.getElementById('progressWrapper');
+        if (pw) pw.style.display = 'block';
+    };
 </script>
 </body>
 </html>
