@@ -354,7 +354,10 @@
         
         /* 캐러셀 스타일 */
         .carousel-container {
-            width: 100%; overflow: hidden; position: relative;
+            width: calc(100% + 40px); /* 부모 좌우 패딩을 상쇄하여 화면에 바짝 붙임 */
+            margin-left: -20px;
+            margin-right: -20px;
+            overflow: hidden; position: relative;
             z-index: 10; transform: translateY(70px); padding: 20px 0;
             pointer-events: none;
         }
@@ -405,7 +408,7 @@
         .msg-text-wrap {
             flex: 1;
             padding-left: 5px;
-            padding-right: 20px;
+            padding-right: 40px; /* 화면 밖으로 나가는 것을 방지하기 위해 우측 여백을 40px로 늘림 */
             text-align: left;
             z-index: 2;
         }
@@ -429,7 +432,7 @@
             width: 90%;
             max-width: 420px;
             display: block;
-            margin: -10px auto 0 auto; /* 위쪽 마진을 -10px로 조정하여 10px 내림, 아래 여백 제거 */
+            margin: -20px auto 0 auto; /* 위쪽 마진을 -40px에서 -20px로 변경하여 전체적으로 20px 내림 */
             transform: translateY(80px);
             position: relative;
             z-index: 10;
@@ -453,6 +456,10 @@
             align-items: center;
             width: 100%;
         }
+        /* 브로콜리(1번째) 텍스트만 20px 위로 당기기 */
+        .zigzag-row:nth-child(1) .zigzag-text-wrap {
+            margin-top: -20px;
+        }
         /* 포도 영역 50px 위로 당기기 */
         .zigzag-row:nth-child(2) {
             margin-top: -50px;
@@ -469,9 +476,9 @@
             position: relative;
             z-index: 22;
         }
-        /* 딸기 옆 텍스트만 15px 추가로 내리기 (총 30px) */
+        /* 딸기 옆 텍스트만 20px 추가로 내리기 (총 50px) */
         .zigzag-row:nth-child(3) .zigzag-text-wrap {
-            margin-top: 30px;
+            margin-top: 50px;
         }
         .zigzag-row.right-img {
             flex-direction: row-reverse; /* 이미지가 우측 */
