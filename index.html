@@ -247,38 +247,46 @@
         
         #radarChart { margin: 0 auto; }
 
-        /* 캐릭터 이미지 플레이스홀더 (추후 이미지 추가 시 표시됨) */
-        .result-char-wrapper {
-            width: 100%;
+        /* 결과 타이틀 및 캐릭터 이미지 컨테이너 */
+        .result-hero {
             display: flex;
-            justify-content: flex-start; /* 좌측 배치 (필요시 조정 가능) */
-            margin-top: -60px; /* 차트 아래쪽에 겹치도록 끌어올림 */
-            padding-left: 5%;
+            align-items: flex-end; /* 설명 상자 라인에 맞추기 위해 아래 정렬 */
+            justify-content: space-between;
+            margin-top: -40px; /* 오각형 차트 상자에 걸치도록 위로 당김 */
             position: relative;
-            z-index: 20;
-            pointer-events: none;
-            min-height: 120px; /* 이미지가 없어도 자리를 차지하도록 설정 */
+            z-index: 1; /* 아래 설명 상자보다 낮게 설정하여 뒤로 들어가게 함 */
+            padding: 0 5%;
         }
+
+        .result-titles {
+            flex: 1;
+            padding-bottom: 20px; /* 설명 상자와의 간격 */
+            padding-right: 10px;
+        }
+
         .result-char-img {
-            width: 140px;
+            width: 150px; /* 캐릭터 이미지 크기 */
             height: auto;
             object-fit: contain;
-            opacity: 0; /* 링크가 비어있을 때는 투명하게 숨김 */
+            opacity: 0;
             transition: opacity 0.3s;
+            transform: translateY(20px); /* 설명 상자 밑으로 파고들도록 아래로 이동 */
+            z-index: 1;
         }
 
         /* 결과 블록 */
         .result-block { display: none; }
-        .result-tag { text-align: center; font-size: 0.85rem; font-weight: 700; color: #666; margin-bottom: 5px; }
+        .result-tag { text-align: left; font-size: 0.85rem; font-weight: 700; color: #666; margin-bottom: 5px; }
         .result-title { 
-            font-family: 'Hahmlet', serif; 
             font-size: 1.8rem; 
             font-weight: 700; 
-            margin: 5px 0 15px 0; 
+            margin: 5px 0 0 0; 
             line-height: 1.2; 
-            text-align: center; 
+            text-align: left; 
         }
         .result-desc { 
+            position: relative;
+            z-index: 10; /* 이미지 위를 덮도록 z-index 상향 */
             font-size: 0.95rem; 
             font-weight: 400; 
             text-align: center; 
@@ -712,14 +720,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="section-label" id="result-label-text"></div>
         <div class="chart-panel" id="chartPanel"><canvas id="radarChart"></canvas></div>
         
-        <!-- 추후 캐릭터 이미지가 들어갈 자리 -->
-        <div class="result-char-wrapper">
-            <img id="result-char-img" class="result-char-img" src="" alt="Result Character">
-        </div>
-
         <div id="result-display">
-            <div class="result-tag" id="res-tag"></div>
-            <div class="result-title" id="res-title"></div>
+            <div class="result-hero">
+                <div class="result-titles">
+                    <div class="result-tag" id="res-tag"></div>
+                    <div class="result-title" id="res-title"></div>
+                </div>
+                <img id="result-char-img" class="result-char-img" src="" alt="Result Character">
+            </div>
             <div class="result-desc" id="res-desc"></div>
         </div>
         <div class="title-text" style="font-size: 1.5rem; text-align: left; margin-bottom: 20px;" id="cheat-codes-title">Survival Cheat Codes</div>
@@ -1152,12 +1160,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         document.getElementById('res-title').style.color = theme.stroke;
         document.getElementById('res-tag').style.color = theme.stroke;
 
-        // 추후 추가될 캐릭터 이미지 로직 (여기에 링크를 넣으시면 됩니다)
+        // 본인 결과 페이지 Share Link 버튼 색상만 결과 테마색으로 변경
+        const shareBtn = document.getElementById('share-btn');
+        if (shareBtn) {
+            shareBtn.style.backgroundColor = theme.stroke;
+            shareBtn.style.borderColor = theme.stroke;
+            shareBtn.style.color = '#fff';
+        }
+
+        // 결과 페이지 상단 캐릭터 이미지 삽입
         const charLinks = {
-            A: "", // Info Overload Explorer 이미지 링크
-            B: "", // Analog Traveler 이미지 링크
-            C: "", // Returning Regular 이미지 링크
-            D: ""  // Perpetual Beginner 이미지 링크
+            A: "https://drive.google.com/thumbnail?id=1fHXLHa4huDl-LL8AwgW-gFmlAhm5pD9R&sz=w500", // Info Overload Explorer
+            B: "https://drive.google.com/thumbnail?id=1FNSiiLRczL2VO331buVXCIsx0mZIgHJy&sz=w500", // Analog Traveler
+            C: "https://drive.google.com/thumbnail?id=1khTzHOmuxC8aYSi_gPUdXRpR76DfWIIG&sz=w500", // Returning Regular
+            D: "https://drive.google.com/thumbnail?id=1BWTSUA0_Y4VS5S8guGPGxX2PKwml99I4&sz=w500"  // Perpetual Beginner
         };
         const charImg = document.getElementById('result-char-img');
         if(charLinks[savedWinner]) {
@@ -1177,7 +1193,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         i18n[currentLang].cheats[savedWinner].forEach((c, idx) => {
             const panel = document.createElement('div'); panel.className = 'guide-panel';
             panel.style.border = `2px solid ${theme.stroke}`;
-            panel.innerHTML = `<div class="guide-num">${i18n[currentLang].cheatCodePrefix} #${idx+1}</div><div class="guide-title">${c.t}</div><ul>${c.i.map(li=>`<li>${li}</li>`).join('')}</ul><div class="guide-tip">${c.tip}</div>`;
+            panel.innerHTML = `<div class="guide-num" style="color: ${theme.stroke}; border-bottom-color: ${theme.stroke};">${i18n[currentLang].cheatCodePrefix} #${idx+1}</div><div class="guide-title">${c.t}</div><ul>${c.i.map(li=>`<li>${li}</li>`).join('')}</ul><div class="guide-tip" style="border-left-color: ${theme.stroke};">${c.tip}</div>`;
             grid.appendChild(panel);
         });
         
@@ -1188,15 +1204,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         const container = document.getElementById('allGuidesContainer');
         container.innerHTML = '';
         ['A', 'B', 'C', 'D'].forEach(type => {
+            const themeStroke = resultThemes[type].stroke;
             const header = document.createElement('div'); header.className = 'type-header';
-            header.style.backgroundColor = resultThemes[type].stroke; // 각 결과별 키 컬러로 배경색 변경
+            header.style.backgroundColor = themeStroke; // 각 결과별 키 컬러로 배경색 변경
             header.innerText = i18n[currentLang].results[type].title;
             container.appendChild(header);
             const grid = document.createElement('div');
             i18n[currentLang].cheats[type].forEach((c, idx) => {
                 const panel = document.createElement('div'); panel.className = 'guide-panel';
-                panel.style.border = `2px solid ${resultThemes[type].stroke}`;
-                panel.innerHTML = `<div class="guide-num">${i18n[currentLang].cheatCodePrefix} #${idx+1}</div><div class="guide-title">${c.t}</div><ul>${c.i.map(li=>`<li>${li}</li>`).join('')}</ul><div class="guide-tip">${c.tip}</div>`;
+                panel.style.border = `2px solid ${themeStroke}`;
+                panel.innerHTML = `<div class="guide-num" style="color: ${themeStroke}; border-bottom-color: ${themeStroke};">${i18n[currentLang].cheatCodePrefix} #${idx+1}</div><div class="guide-title">${c.t}</div><ul>${c.i.map(li=>`<li>${li}</li>`).join('')}</ul><div class="guide-tip" style="border-left-color: ${themeStroke};">${c.tip}</div>`;
                 grid.appendChild(panel);
             });
             container.appendChild(grid);
