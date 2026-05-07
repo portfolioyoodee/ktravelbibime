@@ -474,6 +474,10 @@
         .zigzag-row:nth-child(2) .zigzag-text-wrap {
             margin-top: 30px;
         }
+        /* 영어일 때 포도 옆 텍스트 10px 더 내리기 */
+        html[lang="en"] .zigzag-row:nth-child(2) .zigzag-text-wrap {
+            margin-top: 40px;
+        }
         /* 딸기 영역 50px 위로 당기기 */
         .zigzag-row:nth-child(3) {
             margin-top: -50px;
@@ -483,6 +487,10 @@
         /* 딸기 옆 텍스트만 30px 추가로 내리기 (총 80px) */
         .zigzag-row:nth-child(3) .zigzag-text-wrap {
             margin-top: 80px;
+        }
+        /* 영어일 때 딸기 옆 텍스트 10px 같이 내리기 */
+        html[lang="en"] .zigzag-row:nth-child(3) .zigzag-text-wrap {
+            margin-top: 90px;
         }
         .zigzag-row.right-img {
             flex-direction: row-reverse; /* 이미지가 우측 */
@@ -578,7 +586,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <!-- 편지 상자 UI -->
         <div class="message-box">
             <div class="message-content">
-                <img src="https://drive.google.com/thumbnail?id=1jiU78-9fd0unkiz2mvPAKXY98ai-_bOX&sz=w1000" alt="Character" class="msg-char">
+                <img src="https://drive.google.com/thumbnail?id=1ko35XMQiWQNQ1Ug3iIKr0RSEJg0ZOZqG&sz=w1000" alt="Character" class="msg-char">
                 <div class="msg-text-wrap">
                     <div class="msg-title" id="msg-title"></div>
                     <div class="msg-body" id="msg-body"></div>
@@ -593,7 +601,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="zigzag-container">
             <!-- Row 1: Broccoli (우측 이미지) -->
             <div class="zigzag-row right-img">
-                <img src="https://drive.google.com/thumbnail?id=1_DUx790AqaXA8erMDnAtXj5HfiO6ML_H&sz=w1000" alt="Broccoli Character" class="zigzag-char">
+                <img src="https://drive.google.com/thumbnail?id=1BXhfTuQbgNBgFR98sXvT7b4pokSY0BCj&sz=w1000" alt="Broccoli Character" class="zigzag-char">
                 <div class="zigzag-text-wrap">
                     <div class="zigzag-title" id="broc-title"></div>
                     <div class="zigzag-body" id="broc-body"></div>
@@ -602,7 +610,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
             <!-- Row 2: Grape (좌측 이미지) -->
             <div class="zigzag-row left-img">
-                <img src="https://drive.google.com/thumbnail?id=1669E7Sm-HDWbv7X_ERIOCR24kOZjKwYn&sz=w1000" alt="Grape Character" class="zigzag-char">
+                <img src="https://drive.google.com/thumbnail?id=1fDGZ3nM2oh2n0XKHTTYHGL9TISptXhDS&sz=w1000" alt="Grape Character" class="zigzag-char">
                 <div class="zigzag-text-wrap">
                     <div class="zigzag-body" id="grape-body"></div>
                 </div>
@@ -610,7 +618,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
             <!-- Row 3: Strawberry (우측 이미지) -->
             <div class="zigzag-row right-img">
-                <img src="https://drive.google.com/thumbnail?id=1SJg1WcPTEsx9Ap_eHh0fYjklHc6HqqUf&sz=w1000" alt="Strawberry Character" class="zigzag-char">
+                <img src="https://drive.google.com/thumbnail?id=1NF01aEblN0SDZUCeWil__rcLkce2Pau9&sz=w1000" alt="Strawberry Character" class="zigzag-char">
                 <div class="zigzag-text-wrap">
                     <div class="zigzag-body" id="straw-body"></div>
                 </div>
@@ -826,7 +834,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             },
             cheats: {
                 A: [
-                    { t: "กลยุทธ์สั่งอาหารและระบบเมนู", i: ["ใช้ฟีเจอร์แปลภาษาแบบเรียลไทม์เพื่อดูข้อมูลจากเมนู", "เครื่องสั่งอาหาร (Kiosk) ใช้งานโดยการเลือกจากรูปภาพหรือไอคอน", "การชี้ไปที่รายการอาหารหรือโต๊ะข้างๆ พร้อมพูดว่า 'อี-กอ-โย' (이거요 / อันนี้) เป็นวิธีที่ได้ผลที่สุด", "บันทึกประโยคสำคัญ เช่น 'ทอล แม็บ-เก แฮ-จู-เซ-โย' (덜 맵เก 해주세요 / Deol maep-ge hae-ju-se-yo) ไว้ในแอปเพื่อโชว์ให้พนักงานดู"], tip: "เคล็ดลับ: ตัดปัญหาเรื่องภาษาและสื่อสารด้วยท่าทางร่วมกับเทคโนโลยี" },
+                    { t: "กลยุทธ์สั่งอาหารและระบบเมนู", i: ["ใช้ฟีเจอร์แปลภาษาแบบเรียลไทม์เพื่อดูข้อมูลจากเมนู", "เครื่องสั่งอาหาร (Kiosk) ใช้งานโดยการเลือกจากรูปภาพหรือไอคอน", "การชี้ไปที่รายการอาหารหรือโต๊ะข้างๆ พร้อมพูดว่า 'อี-กอ-โย' (이거요 / อันนี้) เป็นวิธีที่ได้ผลที่สุด", "บันทึกประโยคสำคัญ เช่น 'ทอล แม็บ-เก แฮ-จู-เซ-โย' (덜 맵게 해주세요 / Deol maep-ge hae-ju-se-yo) ไว้ในแอปเพื่อโชว์ให้พนักงานดู"], tip: "เคล็ดลับ: ตัดปัญหาเรื่องภาษาและสื่อสารด้วยท่าทางร่วมกับเทคโนโลยี" },
                     { t: "การจัดการข้อมูลการแพ้อาหาร", i: ["จดข้อมูลการแพ้อาหารเป็นภาษาเกาหลีไว้ในแอปโน้ต", "โชว์หน้าจอให้พนักงานดูทันทีเมื่อเข้าร้านเพื่อเลี่ยงการอธิบายที่ยุ่งยาก", "ใช้กล้องแปลภาษาสแกนฉลากส่วนผสมที่ร้านสะดวกซื้อได้ทันที", "สำหรับอาหารเฉพาะทาง (วีแกน/ฮาลาล) ให้ใช้แอปค้นหาเฉพาะทางช่วยกรองตัวเลือก"], tip: "เคล็ดลับ: จัดรูปแบบข้อมูลให้ชัดเจนและยื่นให้พนักงานดูเพื่อความปลอดภัย" },
                     { t: "วิธีค้นหาร้านอาหารท้องถิ่น", i: ["ใช้แอปรีวิวร้านอาหารของเกาหลีแทนแอปแผนที่ทั่วไปเพื่อให้ได้ข้อมูลที่แม่นยำ", "ค้นหาแฮชแท็กในโซเชียลมีเดียเพื่อดูรีวิวลล่าสุด", "เจ้าของที่พักเป็นแหล่งข้อมูลท้องถิ่นที่เชื่อถือได้มากที่สุด", "อัปเดตข้อมูลจากรีวิวล่าสุด โดยเฉพาะร้านที่อยู่นอกโซล"], tip: "เคล็ดลับ: ให้ความสำคัญกับข้อมูลท้องถิ่นแบบเรียลไทม์มากกว่าการค้นหาทั่วไป" },
                     { t: "การใช้ระบบชำระเงินและการจอง", i: ["แอปจองอย่างเป็นทางการสำหรับชาวต่างชาติคือช่องทางหลักที่สะดวก", "การทัก DM ในโซเชียลมีเดียเป็นทางลัดที่มีประสิทธิภาพเมื่อระบบหลักมีปัญหา", "พกบัตรเติมเงินหรือบัตรเดินทางไว้เสมอเพื่อให้ครอบคลุมการใช้จ่ายและการเดินทาง"], tip: "เคล็ดลับ: เตรียมเครื่องมือที่ถูกต้องเพื่อลดอุปสรรคในการจ่ายเงินและการจอง" }
@@ -840,7 +848,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 C: [
                     { t: "วิธีเลือกบัตรเดินทางที่เหมาะกับคุณ", i: ["สำหรับสายเที่ยวคุ้ม: บัตรเดินทางแบบไม่จำกัดเที่ยว", "สำหรับสายสะดวก: บัตรเติมเงินมาตรฐาน (T-money) ใช้จ่ายแท็กซี่และร้านสะดวกซื้อได้", "สำหรับสาย All-in-One: บัตรเติมเงินสกุลต่างชาติที่ใช้เป็นบัตรเดบิตได้", "สำหรับสายท่องเที่ยว: บัตรท่องเที่ยวเมือง"], tip: "เคล็ดลับ: เลือกบัตรที่สอดคล้องกับแผนการเดินทางของคุณ" },
                     { t: "ทางลัดแผนที่ ไม่ต้องเสียเวลาค้นหาเอง", i: ["ปัญหา: การค้นหาเป็นภาษาอังกฤษมักได้ข้อมูลจำกัด", "วิธีแก้: ไปคัดลอกลิงก์ 'Bookmark Map Lists' ที่อินฟลูเอนเซอร์แชร์ไว้", "ผลลัพธ์: เพียงลิงก์เดียว สถานที่ฮิปๆ ทั้งหมดจะปรากฏบนแผนที่ของคุณทันที"], tip: "เคล็ดลับ: นำเข้าข้อมูลที่มีอยู่แล้ว แทนที่จะเริ่มหาใหม่จากศูนย์" },
-                    { t: "ทำไมยังต้องพกเงินสดติดตัวไว้บ้าง", i: ["อาหารริมทาง เช่น พุงออปัง (붕어빵), ต็อกบกกี (떡볶ี) มักจะรับเฉพาะเงินสด", "การเติมเงินบัตรในบางสถานีอาจรับเฉพาะเงินสด", "ตลาดใต้ดินมักจะได้ส่วนลดหากจ่ายด้วยเงินสด", "มองหาตู้ 'Global ATM' เพื่อกดเงินสดด้วยบัตรต่างประเทศ"], tip: "เคล็ดลับ: พกเงินสดติดตัวไว้เสมอสำหรับธุรกรรมแบบอนาล็อก" },
+                    { t: "ทำไมยังต้องพกเงินสดติดตัวไว้บ้าง", i: ["อาหารริมทาง เช่น พุงออปัง (붕어빵), ต็อกบกกี (떡볶이) มักจะรับเฉพาะเงินสด", "การเติมเงินบัตรในบางสถานีอาจรับเฉพาะเงินสด", "ตลาดใต้ดินมักจะได้ส่วนลดหากจ่ายด้วยเงินสด", "มองหาตู้ 'Global ATM' เพื่อกดเงินสดด้วยบัตรต่างประเทศ"], tip: "เคล็ดลับ: พกเงินสดติดตัวไว้เสมอสำหรับธุรกรรมแบบอนาล็อก" },
                     { t: "กฎการแตะบัตรและทางลัดการเปลี่ยนสาย", i: ["ต้องแตะบัตรตอนลงทุกครั้ง (Tag Off) ไม่เช่นนั้นอาจโดนหักเงินเพิ่ม", "ต้องเปลี่ยนสายภายใน 30 นาทีถึงจะได้ส่วนลดการต่อรถ", "ใช้บัตร 1 ใบต่อ 1 คนเท่านั้นเพื่อรับสิทธิ์ส่วนลด"], tip: "เคล็ดลับ: การแตะบัตรตอนลงคือสิ่งที่ต้องทำ ไม่ใช่ทางเลือก" }
                 ],
                 D: [
@@ -850,7 +858,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     { t: "5 ประโยคสำคัญสำหรับการสั่งอาหาร", i: [
                         "ขอคำแนะนำ: 'ชู-ชอน เม-นู มวอ-เย-โย?' (추천 메뉴 뭐예요? / Chu-cheon me-nyu mwo-ye-yo?)", 
                         "อี-กอ มย็อด อิน-บุน อี-เย-โย?' (이거 몇 인분이에요? / I-geo myeot in-bun-i-ye-yo?)", 
-                        "ทานคนเดียว: 'ฮน-จา ม็อก-ออ-โด ดแว-โย?' (혼จา 먹어도 돼요? / Hon-ja meo-geo-do dwae-yo?)", 
+                        "ทานคนเดียว: 'ฮน-จา ม็อก-ออ-โด ดแว-โย?' (혼자 먹어도 돼요? / Hon-ja meo-geo-do dwae-yo?)", 
                         "อัน แม็บ-เก กา-นึง-แฮ-โย?' (안 맵게 가능해요? / An maep-ge ga-neung-hae-yo?)", 
                         "ออเดอร์ผิด: 'เช-กา ชี-คิน เม-นู-วา ทัล-ลา-โย' (제가 시킨 메뉴와 달라요. / Je-ga si-kin me-nyu-wa dal-la-yo.)"
                     ], tip: "เคล็ดลับ: ประโยคเกาหลีง่ายๆ ได้ผลดีกว่าภาษาอังกฤษที่ซับซ้อน" }
@@ -861,6 +869,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     function changeLanguage(lang) {
         currentLang = lang;
+        document.documentElement.lang = lang; // CSS에서 언어별 여백 처리를 위해 lang 속성 업데이트
         document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
         document.getElementById(`btn-${lang}`).classList.add('active');
         updateStaticText();
@@ -1142,17 +1151,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         window.addEventListener('scroll', () => { if (window.scrollY > 150) hint.classList.add('hidden'); else hint.classList.remove('hidden'); });
     }
 
+    // CAROUSEL JS
     let carouselReqId;
     function initCarousel() {
         const track = document.getElementById('carouselTrack');
         const images = track ? track.querySelectorAll('.carousel-img') : [];
         if (!track || images.length === 0) return;
+
         let trackX = 0;
+        const speed = 0.68; // 0.4의 1.7배 속도로 상향 조정
+        
         function animate() {
             let resetPoint = 0;
             for(let i = 0; i < 4; i++) resetPoint += images[i].offsetWidth + 16;
             if (resetPoint === 0) { carouselReqId = requestAnimationFrame(animate); return; }
-            trackX -= 0.4;
+            trackX -= speed; 
             if (trackX <= -resetPoint) trackX += resetPoint; 
             track.style.transform = `translateX(${trackX}px)`;
             const containerCenter = track.parentElement.getBoundingClientRect().left + (track.parentElement.offsetWidth / 2);
