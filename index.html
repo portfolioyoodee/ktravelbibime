@@ -344,6 +344,17 @@
             display: inline-block;
         }
 
+        /* 하단 꽉 차는 풀사이즈 이미지 */
+        .footer-full-img {
+            width: calc(100% + 40px); /* 부모 여백 상쇄하여 화면에 꽉 차게 */
+            margin-left: -20px;
+            margin-right: -20px;
+            margin-bottom: -80px; /* 섹션 하단 패딩을 상쇄하여 바닥에 완전 밀착 */
+            margin-top: 60px; /* 위 버튼과의 여백 */
+            display: block;
+            object-fit: cover;
+        }
+
         /* 버튼 컨테이너 */
         .action-container {
             display: flex;
@@ -372,7 +383,7 @@
 
         /* 시작 화면 커스텀 */
         #start-title { 
-            margin: 0 auto 5px auto; 
+            margin: 0 auto 35px auto; /* 대제목 아래 여백을 넓혀 시원한 공간감 확보 */
             z-index: 10; 
             transform: translateY(50px); 
             text-align: left; 
@@ -381,7 +392,7 @@
             max-width: 420px;
         }
         #start-sub-title {
-            margin: 0 auto 15px auto; 
+            margin: 0 auto 15px auto; /* 너무 딱 붙지 않도록 하단 여백을 살짝 늘림 (기존 5px -> 15px) */
             font-size: 1.25rem;
             font-weight: bold; 
             color: #585858;
@@ -398,7 +409,9 @@
             margin-left: -20px;
             margin-right: -20px;
             overflow: hidden; position: relative;
-            z-index: 10; transform: translateY(70px); padding: 20px 0;
+            z-index: 10; 
+            transform: translateY(50px); /* 서브타이틀 위치와 동일하게 끌어올려 밀착 */
+            padding: 0 0 20px 0; /* 상단 패딩을 완전히 제거하여 한 덩어리로 묶음 */
             pointer-events: none;
         }
         .carousel-track { display: flex; gap: 16px; width: max-content; align-items: center; }
@@ -430,7 +443,7 @@
             max-width: 500px;
             margin: 0 auto;
             position: relative;
-            transform: translateY(100px); /* 10px 위로 올림 (기존 110px -> 100px) */
+            transform: translateY(80px); /* 20px 추가로 올림 (기존 100px -> 80px) */
             z-index: 20; 
             padding: 10px 0;
         }
@@ -478,7 +491,7 @@
             max-width: 420px;
             display: block;
             margin: -20px auto 0 auto; /* 30px 위로 올림 (기존 10px -> -20px) */
-            transform: translateY(110px); /* message-box에 맞춰 같이 내림 */
+            transform: translateY(90px); /* 20px 추가로 올림 (기존 110px -> 90px) */
             position: relative;
             z-index: 10;
         }
@@ -493,7 +506,7 @@
             gap: 0; 
             padding: 0 0 80px 0; 
             position: relative;
-            transform: translateY(110px); /* message-box에 맞춰 같이 내림 */
+            transform: translateY(90px); /* 20px 추가로 올림 (기존 110px -> 90px) */
             z-index: 20; 
         }
         .zigzag-row {
@@ -773,6 +786,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <button class="action-btn full" onclick="shareLink('share-btn-all')" id="share-btn-all"></button>
         </div>
         <div style="height: 80px; width: 100%;"></div>
+        <!-- 최하단 꽉 차는 이미지 추가 -->
+        <img src="https://drive.google.com/thumbnail?id=1Lf2yYevEVB8S0v0ULOn-idOZ25e64vKJ&sz=w1000" alt="footer graphic" class="footer-full-img">
     </section>
 </div>
 
