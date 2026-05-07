@@ -99,7 +99,8 @@
 
         #step-result, #step-all-guides { 
             justify-content: flex-start; 
-            padding-top: 40px;
+            margin-top: -50px; /* 상단 하얀 여백을 덮기 위해 위로 당김 */
+            padding-top: 90px; /* 당긴 만큼 내부 여백 추가 */
             padding-bottom: 80px;
         }
         
@@ -217,6 +218,19 @@
             color: #000;
             letter-spacing: 1px;
             text-transform: uppercase;
+        }
+        
+        /* 질문 섹션의 PART 라벨만 왼쪽 정렬 */
+        .question-block .section-label {
+            text-align: left;
+        }
+
+        /* 연하고 아주 작은 구분선 */
+        .part-divider {
+            border: none;
+            border-top: 1px solid #e0e0e0;
+            width: 40px;
+            margin: 0 0 30px 0;
         }
 
         /* 뒤로가기 버튼 */
@@ -403,8 +417,8 @@
             width: 90%;
             max-width: 420px;
             display: block;
-            margin: 50px auto 0 auto; /* 위쪽 여백 50px 추가 */
-            transform: translateY(80px);
+            margin: 20px auto 0 auto; /* 위쪽 여백 축소 */
+            transform: translateY(50px); /* 위쪽 캐러셀과 더 가깝게 조정 */
             position: relative;
             z-index: 10;
             border-radius: 12px;
@@ -416,8 +430,8 @@
             max-width: 500px;
             margin: 0 auto;
             position: relative;
-            transform: translateY(80px);
-            z-index: 20; /* 구분선보다 위로 오도록 10에서 20으로 상향 */
+            transform: translateY(110px); /* For You 글자 위 간격을 늘리기 위해 더 내림 */
+            z-index: 20; 
             padding: 10px 0;
         }
         .message-content {
@@ -458,10 +472,24 @@
             width: 90%;
             max-width: 420px;
             display: block;
-            margin: 10px auto 0 auto; /* 위쪽 마진을 -20px에서 10px로 변경하여 구분선과 하위 요소를 30px 내림 */
-            transform: translateY(80px);
+            margin: 10px auto 0 auto;
+            transform: translateY(110px); /* message-box에 맞춰 같이 내림 */
             position: relative;
             z-index: 10;
+        }
+
+        /* 지그재그(Z-layout) 캐릭터 섹션 */
+        .zigzag-container {
+            width: 100%;
+            max-width: 500px;
+            margin: -20px auto 0 auto; 
+            display: flex;
+            flex-direction: column;
+            gap: 0; 
+            padding: 0 0 80px 0; 
+            position: relative;
+            transform: translateY(110px); /* message-box에 맞춰 같이 내림 */
+            z-index: 20; 
         }
 
         /* 지그재그(Z-layout) 캐릭터 섹션 */
@@ -492,9 +520,9 @@
             position: relative;
             z-index: 21;
         }
-        /* 포도 이미지만 20px 더 올리기 */
+        /* 포도 이미지만 30px 더 내리기 (기존 -20px에서 10px로 변경) */
         .zigzag-row:nth-child(2) .zigzag-char {
-            margin-top: -20px;
+            margin-top: 10px;
         }
         /* 포도 옆 텍스트 30px 내리기 */
         .zigzag-row:nth-child(2) .zigzag-text-wrap {
@@ -675,37 +703,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
         
         <div class="question-block bg-screentone-2" id="q-block-2" style="padding: 40px 20px;">
-            <div class="section-label" id="label-q2"></div>
+            <!-- 중복 라벨 삭제됨 -->
             <div class="narration-box" id="text-q2"></div>
             <div class="options-container" id="opts-q2"></div>
         </div>
 
         <div class="question-block" id="q-block-3" style="padding: 40px 20px;">
+            <hr class="part-divider">
             <div class="section-label" id="label-q3"></div>
             <div class="narration-box" id="text-q3"></div>
             <div class="options-container" id="opts-q3"></div>
         </div>
 
         <div class="question-block bg-screentone-1" id="q-block-4" style="padding: 40px 20px;">
-            <div class="section-label" id="label-q4"></div>
+            <!-- 중복 라벨 삭제됨 -->
             <div class="narration-box" id="text-q4"></div>
             <div class="options-container" id="opts-q4"></div>
         </div>
 
         <div class="question-block" id="q-block-5" style="padding: 40px 20px;">
-            <div class="section-label" id="label-q5"></div>
+            <!-- 중복 라벨 삭제됨 -->
             <div class="narration-box" id="text-q5"></div>
             <div class="options-container" id="opts-q5"></div>
         </div>
 
         <div class="question-block bg-screentone-2" id="q-block-6" style="padding: 40px 20px;">
+            <hr class="part-divider">
             <div class="section-label" id="label-q6"></div>
             <div class="narration-box" id="text-q6"></div>
             <div class="options-container" id="opts-q6"></div>
         </div>
 
         <div class="question-block" id="q-block-7" style="padding: 40px 20px; padding-bottom: 80px;">
-            <div class="section-label" id="label-q7"></div>
+            <!-- 중복 라벨 삭제됨 -->
             <div class="narration-box" id="text-q7"></div>
             <div class="options-container" id="opts-q7"></div>
         </div>
@@ -966,9 +996,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         for(let i = 1; i <= 7; i++) {
             const qIndex = i - 1;
             const qData = qDataList[qIndex];
-            let partLabel = i === 1 ? label.p1 : (i <= 5 ? label.p2 : label.p3);
             
-            document.getElementById(`label-q${i}`).innerText = partLabel;
+            const labelEl = document.getElementById(`label-q${i}`);
+            if (labelEl) {
+                let partLabel = i === 1 ? label.p1 : (i <= 5 ? label.p2 : label.p3);
+                // "PART 1." 뒤에서 줄바꿈이 되도록 정규식 처리 적용
+                partLabel = partLabel.replace(/^(PART \d+\.)\s+(.*)/, '$1<br>$2');
+                labelEl.innerHTML = partLabel;
+            }
+            
             document.getElementById(`text-q${i}`).innerText = qData.q;
             
             const optsContainer = document.getElementById(`opts-q${i}`);
