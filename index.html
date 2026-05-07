@@ -417,7 +417,7 @@
             width: 90%;
             max-width: 420px;
             display: block;
-            margin: 20px auto 0 auto; /* 위쪽 여백 축소 */
+            margin: 40px auto 0 auto; /* 20px 아래로 내림 (기존 20px -> 40px) */
             transform: translateY(50px); /* 위쪽 캐러셀과 더 가깝게 조정 */
             position: relative;
             z-index: 10;
@@ -430,7 +430,7 @@
             max-width: 500px;
             margin: 0 auto;
             position: relative;
-            transform: translateY(110px); /* For You 글자 위 간격을 늘리기 위해 더 내림 */
+            transform: translateY(100px); /* 10px 위로 올림 (기존 110px -> 100px) */
             z-index: 20; 
             padding: 10px 0;
         }
@@ -477,7 +477,7 @@
             width: 90%;
             max-width: 420px;
             display: block;
-            margin: 10px auto 0 auto;
+            margin: -20px auto 0 auto; /* 30px 위로 올림 (기존 10px -> -20px) */
             transform: translateY(110px); /* message-box에 맞춰 같이 내림 */
             position: relative;
             z-index: 10;
@@ -495,20 +495,6 @@
             position: relative;
             transform: translateY(110px); /* message-box에 맞춰 같이 내림 */
             z-index: 20; 
-        }
-
-        /* 지그재그(Z-layout) 캐릭터 섹션 */
-        .zigzag-container {
-            width: 100%;
-            max-width: 500px;
-            margin: -20px auto 0 auto; /* 음수 마진을 주어 구분선 위로 바짝 끌어올림 */
-            display: flex;
-            flex-direction: column;
-            gap: 0; /* 간격 대폭 축소 (기존 50px -> 0) */
-            padding: 0 0 80px 0; /* 상단 패딩 제거 */
-            position: relative;
-            transform: translateY(80px);
-            z-index: 20; /* 캐릭터가 선 위로 오도록 z-index 상향 */
         }
         .zigzag-row {
             display: flex;
