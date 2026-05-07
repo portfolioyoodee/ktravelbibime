@@ -435,19 +435,24 @@
             padding: 10px 0;
         }
         .message-content {
-            display: flex;
-            align-items: center;
+            display: block; /* 텍스트가 이미지를 감싸기 위해 flex에서 block으로 변경 */
+        }
+        .message-content::after {
+            content: "";
+            display: table;
+            clear: both; /* float 해제 */
         }
         .msg-char {
-            width: 120px; /* 바나나 캐릭터 너비 80%로 축소 */
+            float: left; /* 텍스트가 바나나를 감싸며 흐르도록 띄움 */
+            width: 130px; /* 자연스러운 비율을 위해 살짝 확대 */
             object-fit: contain;
-            display: block;
-            margin-left: -20px; /* 부모 패딩을 상쇄하여 화면 왼쪽 끝에 밀착 */
+            margin: 5px 18px 5px -20px; /* 텍스트와 맞닿는 우측 및 하단에 여백 추가 */
+            position: relative;
             z-index: 2;
         }
         .msg-text-wrap {
-            flex: 1;
-            padding-left: 5px;
+            display: block;
+            padding-left: 0; /* 불필요한 좌측 패딩 제거 */
             padding-right: 20px; /* 영어의 우측 여백을 줄여 균형을 맞춤 (40px -> 20px) */
             text-align: left;
             z-index: 2;
