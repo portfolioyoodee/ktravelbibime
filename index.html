@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Korea Travel Survival Type Test</title>
+    <!-- 폰트 및 이미지 프리로드 -->
     <link rel="preload" as="image" href="https://drive.google.com/thumbnail?id=1KxW6WiqZaRZ9QWcgbE_99GDqYqXSEcNa&sz=w800">
     <link rel="preload" as="image" href="https://drive.google.com/thumbnail?id=1fUvS64anZIvnCeD17FbQu49Nxc96vxjI&sz=w500">
     <link rel="preload" as="image" href="https://drive.google.com/thumbnail?id=1gQ6D18WpAlbMNFLshf6WcnXb1XXspHEB&sz=w500">
@@ -17,10 +18,9 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-KH9D9WJZ');</script>
-    <!-- End Google Tag Manager -->
     
     <style>
-        /* BASE RESET & SETUP */
+        /* 기본 리셋 및 스타일 설정 */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body {
@@ -31,14 +31,16 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* LANGUAGE SELECTOR - Fixed at top */
+        /* 언어 선택기 - 상단 고정 */
         .lang-nav {
             display: flex;
             justify-content: center;
             gap: 8px;
-            margin-top: 40px;
-            margin-bottom: 20px;
             z-index: 10;
+            position: absolute;
+            top: 40px;
+            left: 0;
+            width: 100%;
         }
 
         .lang-btn {
@@ -57,7 +59,7 @@
             color: #fff;
         }
 
-        /* WEBTOON CONTAINER */
+        /* 웹툰 뷰어 컨테이너 */
         .webtoon-viewer {
             max-width: 500px;
             margin: 0 auto;
@@ -72,7 +74,7 @@
             padding-top: 50px;
         }
 
-        /* PROGRESS BAR */
+        /* 진행 바 */
         .progress-wrapper {
             position: absolute;
             top: 50px; left: 0; width: 100%; height: 3px;
@@ -83,7 +85,7 @@
             transition: width 0.3s ease;
         }
 
-        /* CUTS */
+        /* 컷(섹션) 스타일 */
         .cut {
             width: 100%;
             min-height: calc(100vh - 50px);
@@ -111,15 +113,10 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .bg-screentone-1 {
-            background-image: radial-gradient(#e8e8e8 1px, transparent 1px);
-            background-size: 8px 8px;
-        }
-        .bg-screentone-2 {
-            background: repeating-linear-gradient(45deg, #f9f9f9, #f9f9f9 2px, #fff 2px, #fff 12px);
-        }
+        .bg-screentone-1 { background: #fff; }
+        .bg-screentone-2 { background: #fff; }
 
-        /* TYPOGRAPHY */
+        /* 타이포그래피 */
         .title-text {
             font-family: 'Hahmlet', serif;
             font-size: 2.2rem;
@@ -144,61 +141,72 @@
             overflow-wrap: break-word;
         }
 
+        /* 선택지 버블 */
         .bubble {
             background: #fff;
-            border: 1px solid #000;
-            border-radius: 28px;
-            padding: 16px 24px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 16px 20px;
             color: #000;
-            font-size: 1.05rem;
+            font-size: 1rem;
             font-weight: 400;
             line-height: 1.45;
             position: relative;
             cursor: pointer;
             transition: all 0.2s;
             width: 100%;
-            max-width: 320px;
-            margin: 0 auto 16px auto;
-            text-align: center;
+            max-width: 95%;
+            margin: 0 auto 12px auto;
+            text-align: left;
             word-break: break-word;
             overflow-wrap: break-word;
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.06);
         }
 
-        .bubble::after {
+        .check-circle {
+            width: 22px;
+            height: 22px;
+            border: 2px solid #ccc;
+            border-radius: 50%;
+            margin-right: 12px;
+            flex-shrink: 0;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .bubble.selected .check-circle {
+            border-color: #fff;
+            background-color: #fff;
+        }
+
+        .bubble.selected .check-circle::after {
             content: '';
             position: absolute;
-            bottom: -8px;
-            left: 40px;
-            border-width: 8px 8px 0 0;
-            border-style: solid;
-            border-color: #fff transparent transparent transparent;
-            z-index: 2;
+            top: 2px;
+            left: 6px;
+            width: 6px;
+            height: 11px;
+            border: solid #000;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
         }
-        .bubble::before {
-            content: '';
-            position: absolute;
-            bottom: -9px;
-            left: 39px;
-            border-width: 9px 9px 0 0;
-            border-style: solid;
-            border-color: #000 transparent transparent transparent;
-            z-index: 1;
-        }
+
+        .option-text { flex: 1; }
 
         .bubble:active {
             background-color: #f5f5f5;
             transform: scale(0.98);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
         }
 
         .bubble.selected {
             background-color: #000;
             color: #fff;
-        }
-        .bubble.selected::after {
-            border-color: #000 transparent transparent transparent;
+            border-color: #000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         .section-label {
@@ -211,7 +219,7 @@
             text-transform: uppercase;
         }
 
-        /* BACK BUTTON */
+        /* 뒤로가기 버튼 */
         .back-btn {
             align-self: flex-start;
             margin-left: 5%;
@@ -224,7 +232,7 @@
             cursor: pointer;
         }
 
-        /* CHART PANEL */
+        /* 차트 패널 */
         .chart-panel {
             background: url('https://drive.google.com/thumbnail?id=1lkicGSGt6VwORcWXj5H2FXkl4-uT5o7m&sz=w800') no-repeat center center;
             background-size: contain;
@@ -238,15 +246,11 @@
             position: relative;
         }
         
-        #radarChart {
-            margin: 0 auto;
-        }
+        #radarChart { margin: 0 auto; }
 
-        /* RESULTS */
+        /* 결과 블록 */
         .result-block { display: none; }
-        .result-tag {
-            text-align: center; font-size: 0.85rem; font-weight: 700; color: #666; margin-bottom: 5px;
-        }
+        .result-tag { text-align: center; font-size: 0.85rem; font-weight: 700; color: #666; margin-bottom: 5px; }
         .result-title { 
             font-family: 'Hahmlet', serif; 
             font-size: 1.8rem; 
@@ -268,7 +272,7 @@
             line-height: 1.6;
         }
 
-        /* GUIDES */
+        /* 가이드 패널 */
         .guide-panel { 
             border: 1px solid #000; 
             padding: 20px; 
@@ -300,6 +304,7 @@
             display: inline-block;
         }
 
+        /* 버튼 컨테이너 */
         .action-container {
             display: flex;
             flex-direction: column;
@@ -308,11 +313,7 @@
             width: 100%;
             margin-top: 30px;
         }
-        .action-row {
-            display: flex;
-            gap: 12px;
-            width: 90%;
-        }
+        .action-row { display: flex; gap: 12px; width: 90%; }
         .action-btn {
             background: #000;
             color: #fff;
@@ -329,130 +330,326 @@
         .action-btn.full { width: 90%; flex: none; }
         .action-btn:active { background: #333; }
 
-        /* QUESTION IMAGES */
-        .question-top-img {
-            width: 100%;
-            max-width: 380px;
-            margin: 0 auto 20px auto;
+        /* 시작 화면 커스텀 */
+        #start-title { 
+            margin: 0 auto 5px auto; 
+            z-index: 10; 
+            transform: translateY(50px); 
+            text-align: left; 
+            color: #ff7777; 
+            width: 90%; 
+            max-width: 420px;
+        }
+        #start-sub-title {
+            margin: 0 auto 15px auto; 
+            font-size: 1.25rem;
+            font-weight: bold; 
+            color: #585858;
+            text-align: left; 
+            z-index: 10; 
+            transform: translateY(50px);
+            width: 90%; 
+            max-width: 420px;
+        }
+        
+        /* 캐러셀 스타일 */
+        .carousel-container {
+            width: 100%; overflow: hidden; position: relative;
+            z-index: 10; transform: translateY(70px); padding: 20px 0;
+            pointer-events: none;
+        }
+        .carousel-track { display: flex; gap: 16px; width: max-content; align-items: center; }
+        .carousel-img {
+            width: 160px; /* 카드 너비 고정 */
+            height: 220px; /* 카드 높이 고정 */
+            object-fit: cover; /* 비율을 유지하면서 빈틈없이 꽉 채우기 */
+            background-color: transparent; /* 하얀색 상자 배경 제거 */
+            border-radius: 16px;
+            box-shadow: none; /* 그림자 제거 */
+            transform-origin: center center;
+        }
+
+        /* 본문 삽입 이미지 */
+        .content-img {
+            width: 90%;
+            max-width: 420px;
             display: block;
+            margin: 50px auto 0 auto; /* 위쪽 여백 50px 추가 */
+            transform: translateY(80px);
+            position: relative;
+            z-index: 10;
             border-radius: 12px;
         }
 
-        /* START SCREEN CUSTOMIZATION */
-        #step-0 {
-            background: url('https://drive.google.com/thumbnail?id=1KxW6WiqZaRZ9QWcgbE_99GDqYqXSEcNa&sz=w800') no-repeat center center !important;
-            background-size: cover !important;
+        /* 편지 상자 영역 (기존 long-text-area 대체) */
+        .message-box {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+            transform: translateY(80px);
+            z-index: 20; /* 구분선보다 위로 오도록 10에서 20으로 상향 */
+            padding: 10px 0;
         }
-        #start-sub-title {
-            margin-top: 0;
-            margin-bottom: 5px;
-            font-size: 0.95rem;
-            font-weight: 500;
-            text-align: center;
+        .message-content {
+            display: flex;
+            align-items: center;
+        }
+        .msg-char {
+            width: 120px; /* 바나나 캐릭터 너비 80%로 축소 */
+            object-fit: contain;
+            display: block;
+            margin-left: -20px; /* 부모 패딩을 상쇄하여 화면 왼쪽 끝에 밀착 */
+            z-index: 2;
+        }
+        .msg-text-wrap {
+            flex: 1;
+            padding-left: 5px;
+            padding-right: 20px;
+            text-align: left;
+            z-index: 2;
+        }
+        .msg-title {
+            font-size: 20pt; /* 요청하신 20pt 적용 */
+            color: #FFD25A; /* 노란색 */
+            font-weight: 900;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+        .msg-body {
+            font-size: 12pt; /* 요청하신 12pt 적용 */
+            color: #585858; /* 지정된 회색 */
+            font-weight: 400;
+            line-height: 1.6;
+            word-break: keep-all;
+        }
+
+        /* 구분선 이미지 */
+        .separator-line {
+            width: 90%;
+            max-width: 420px;
+            display: block;
+            margin: -10px auto 0 auto; /* 위쪽 마진을 -10px로 조정하여 10px 내림, 아래 여백 제거 */
+            transform: translateY(80px);
+            position: relative;
             z-index: 10;
         }
-        #start-title { 
-            margin-top: 0;
-            z-index: 10;
+
+        /* 지그재그(Z-layout) 캐릭터 섹션 */
+        .zigzag-container {
+            width: 100%;
+            max-width: 500px;
+            margin: -20px auto 0 auto; /* 음수 마진을 주어 구분선 위로 바짝 끌어올림 */
+            display: flex;
+            flex-direction: column;
+            gap: 0; /* 간격 대폭 축소 (기존 50px -> 0) */
+            padding: 0 0 80px 0; /* 상단 패딩 제거 */
+            position: relative;
+            transform: translateY(80px);
+            z-index: 20; /* 캐릭터가 선 위로 오도록 z-index 상향 */
         }
-        #start-btn-text {
-            background: url('https://drive.google.com/thumbnail?id=10ydcMCY8BuE9CYBoEiEtbhjfMrMVHRp0&sz=w500') no-repeat center center !important;
-            background-size: contain !important;
-            border: none !important;
-            border-radius: 0 !important;
-            width: 240px;
-            height: 110px;
-            padding: 0;
-            margin-top: 300px; 
-            margin-bottom: 15px; 
-            font-weight: 700;
-            color: transparent;
-            z-index: 10;
+        .zigzag-row {
+            display: flex;
+            align-items: center;
+            width: 100%;
         }
-        #start-btn-text::before, #start-btn-text::after { display: none !important; }
-        #start-btn-text:active { transform: scale(0.95); background-color: transparent !important; }
-        
-        #start-bottom-text {
-            font-size: 0.75rem;
-            font-weight: 500;
-            color: #666;
-            text-align: center;
-            margin-bottom: 100px;
-            z-index: 10;
+        /* 포도 영역 50px 위로 당기기 */
+        .zigzag-row:nth-child(2) {
+            margin-top: -50px;
+            position: relative;
+            z-index: 21;
         }
+        /* 포도 이미지만 20px 더 올리기 */
+        .zigzag-row:nth-child(2) .zigzag-char {
+            margin-top: -20px;
+        }
+        /* 딸기 영역 50px 위로 당기기 */
+        .zigzag-row:nth-child(3) {
+            margin-top: -50px;
+            position: relative;
+            z-index: 22;
+        }
+        /* 딸기 옆 텍스트만 15px 추가로 내리기 (총 30px) */
+        .zigzag-row:nth-child(3) .zigzag-text-wrap {
+            margin-top: 30px;
+        }
+        .zigzag-row.right-img {
+            flex-direction: row-reverse; /* 이미지가 우측 */
+        }
+        .zigzag-row.left-img {
+            flex-direction: row; /* 이미지가 좌측 */
+        }
+        .zigzag-char {
+            width: 130px; /* 적절한 크기로 조정 */
+            object-fit: contain;
+            z-index: 2;
+        }
+        .right-img .zigzag-char {
+            margin-right: -20px; /* 우측으로 돌출 */
+        }
+        .left-img .zigzag-char {
+            margin-left: -20px; /* 좌측으로 돌출 */
+        }
+        .zigzag-text-wrap {
+            flex: 1;
+            padding: 0 15px;
+            text-align: left;
+            z-index: 2;
+        }
+        .zigzag-title {
+            font-size: 18pt; 
+            color: #D845A0; /* 캡처본에 맞는 핑크색 적용 */
+            font-weight: 900;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+        .zigzag-body {
+            font-size: 12pt;
+            color: #585858;
+            font-weight: 400;
+            line-height: 1.6;
+            word-break: keep-all;
+        }
+
+        /* 스크롤 힌트 버튼 */
+        .scroll-hint-btn {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            width: 50px; height: 50px; background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            z-index: 100; cursor: pointer; transition: opacity 0.4s ease, visibility 0.4s ease;
+            backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+        }
+        .scroll-hint-btn svg { width: 24px; height: 24px; fill: #fff; opacity: 0.8; }
+        .scroll-hint-btn.bounce { animation: ddiyong 1s ease; }
+        @keyframes ddiyong {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+        .scroll-hint-btn.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
     </style>
 </head>
 <body>
 
-<!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KH9D9WJZ"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-
 
 <div class="webtoon-viewer">
     <div class="progress-wrapper" id="progressWrapper">
         <div class="progress-fill" id="progressFill"></div>
     </div>
 
-    <!-- START -->
+    <!-- START 섹션 -->
     <section class="cut bg-screentone-1 active" id="step-0" style="align-items: center;">
         <nav class="lang-nav">
             <button class="lang-btn active" id="btn-th" onclick="changeLanguage('th')">ไทย (Thai)</button>
             <button class="lang-btn" id="btn-en" onclick="changeLanguage('en')">English</button>
         </nav>
-        <div id="start-sub-title"></div>
         <h1 class="title-text" id="start-title">Korea Travel<br>Survival Test</h1>
-        <div class="bubble" onclick="nextStep('questions')" id="start-btn-text">Tap to start</div>
-        <div id="start-bottom-text"></div>
+        <div id="start-sub-title"></div>
+        
+        <div class="carousel-container">
+            <div class="carousel-track" id="carouselTrack">
+                <img class="carousel-img" src="https://drive.google.com/thumbnail?id=18L6zF3ISemmm7zdQ6I3YIHShLTnfz33h&sz=w500" alt="">
+                <img class="carousel-img" src="https://drive.google.com/thumbnail?id=1APbe0odY3Og_Nh-AOQwEj0jXqKUhGYxF&sz=w500" alt="">
+                <img class="carousel-img" src="https://drive.google.com/thumbnail?id=12F1fOeMcO6DQo_upsPsgdm7Bgu-vDZKp&sz=w500" alt="">
+                <img class="carousel-img" src="https://drive.google.com/thumbnail?id=1PLgHVPZBdYzlUJzXcKDr9EL83U3x-8ez&sz=w500" alt="">
+                <!-- 무한 루프용 복제 이미지 -->
+                <img class="carousel-img" src="https://drive.google.com/thumbnail?id=18L6zF3ISemmm7zdQ6I3YIHShLTnfz33h&sz=w500" alt="">
+                <img class="carousel-img" src="https://drive.google.com/thumbnail?id=1APbe0odY3Og_Nh-AOQwEj0jXqKUhGYxF&sz=w500" alt="">
+                <img class="carousel-img" src="https://drive.google.com/thumbnail?id=12F1fOeMcO6DQo_upsPsgdm7Bgu-vDZKp&sz=w500" alt="">
+                <img class="carousel-img" src="https://drive.google.com/thumbnail?id=1PLgHVPZBdYzlUJzXcKDr9EL83U3x-8ez&sz=w500" alt="">
+            </div>
+        </div>
+
+        <img class="content-img" src="https://drive.google.com/thumbnail?id=1s4FghKu7_V7X7b70pLtKHGcUXlXauNXn&sz=w800" alt="content illustration">
+
+        <!-- 편지 상자 UI -->
+        <div class="message-box">
+            <div class="message-content">
+                <img src="https://drive.google.com/thumbnail?id=1jiU78-9fd0unkiz2mvPAKXY98ai-_bOX&sz=w1000" alt="Character" class="msg-char">
+                <div class="msg-text-wrap">
+                    <div class="msg-title" id="msg-title"></div>
+                    <div class="msg-body" id="msg-body"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 구분선 이미지 -->
+        <img class="separator-line" src="https://drive.google.com/thumbnail?id=1GbWgCq9HTIee7vJ6-fHIXppaQMmFhE9j&sz=w800" alt="separator">
+        
+        <!-- 지그재그 레이아웃 영역 추가 -->
+        <div class="zigzag-container">
+            <!-- Row 1: Broccoli (우측 이미지) -->
+            <div class="zigzag-row right-img">
+                <img src="https://drive.google.com/thumbnail?id=1_DUx790AqaXA8erMDnAtXj5HfiO6ML_H&sz=w1000" alt="Broccoli Character" class="zigzag-char">
+                <div class="zigzag-text-wrap">
+                    <div class="zigzag-title" id="broc-title"></div>
+                    <div class="zigzag-body" id="broc-body"></div>
+                </div>
+            </div>
+
+            <!-- Row 2: Grape (좌측 이미지) -->
+            <div class="zigzag-row left-img">
+                <img src="https://drive.google.com/thumbnail?id=1669E7Sm-HDWbv7X_ERIOCR24kOZjKwYn&sz=w1000" alt="Grape Character" class="zigzag-char">
+                <div class="zigzag-text-wrap">
+                    <div class="zigzag-body" id="grape-body"></div>
+                </div>
+            </div>
+
+            <!-- Row 3: Strawberry (우측 이미지) -->
+            <div class="zigzag-row right-img">
+                <img src="https://drive.google.com/thumbnail?id=1SJg1WcPTEsx9Ap_eHh0fYjklHc6HqqUf&sz=w1000" alt="Strawberry Character" class="zigzag-char">
+                <div class="zigzag-text-wrap">
+                    <div class="zigzag-body" id="straw-body"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="scroll-hint-btn" id="scrollHint" onclick="scrollToFirstQuestion()">
+            <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+        </div>
     </section>
 
-    <!-- Questions 1-7 -->
+    <!-- 질문 섹션 (1~7) -->
     <section class="cut active" id="step-questions" style="padding: 0; justify-content: flex-start;">
         <div class="question-block" id="q-block-1" style="padding: 40px 20px;">
-            <img src="https://drive.google.com/thumbnail?id=1R_HSKrbi0tlM6sWKpVG6qBSYQWgr_J2s&sz=w800" class="question-top-img" loading="lazy">
             <div class="section-label" id="label-q1"></div>
             <div class="narration-box" id="text-q1"></div>
             <div class="options-container" id="opts-q1"></div>
         </div>
         
         <div class="question-block bg-screentone-2" id="q-block-2" style="padding: 40px 20px;">
-            <img src="https://drive.google.com/thumbnail?id=1p1sAtg9ju4RvzuiEqdrS2cl9c_4hAZ86&sz=w800" class="question-top-img" loading="lazy">
             <div class="section-label" id="label-q2"></div>
             <div class="narration-box" id="text-q2"></div>
             <div class="options-container" id="opts-q2"></div>
         </div>
 
         <div class="question-block" id="q-block-3" style="padding: 40px 20px;">
-            <img src="https://drive.google.com/thumbnail?id=1RjBP9mfmiJnWbugWHHRaO3nlayhM5mao&sz=w800" class="question-top-img" loading="lazy">
             <div class="section-label" id="label-q3"></div>
             <div class="narration-box" id="text-q3"></div>
             <div class="options-container" id="opts-q3"></div>
         </div>
 
         <div class="question-block bg-screentone-1" id="q-block-4" style="padding: 40px 20px;">
-            <img src="https://drive.google.com/thumbnail?id=1eBNO8t4APbMvpXfmhC_6FJCc0-sP8013&sz=w800" class="question-top-img" loading="lazy">
             <div class="section-label" id="label-q4"></div>
             <div class="narration-box" id="text-q4"></div>
             <div class="options-container" id="opts-q4"></div>
         </div>
 
         <div class="question-block" id="q-block-5" style="padding: 40px 20px;">
-            <img src="https://drive.google.com/thumbnail?id=1OqVwirstcqb8it66tiSvKK5Uz9QrbpMm&sz=w800" class="question-top-img" loading="lazy">
             <div class="section-label" id="label-q5"></div>
             <div class="narration-box" id="text-q5"></div>
             <div class="options-container" id="opts-q5"></div>
         </div>
 
         <div class="question-block bg-screentone-2" id="q-block-6" style="padding: 40px 20px;">
-            <img src="https://drive.google.com/thumbnail?id=1RJNTNkxL0NgcAG0YSSOIe8Om_AC_Xfsx&sz=w800" class="question-top-img" loading="lazy">
             <div class="section-label" id="label-q6"></div>
             <div class="narration-box" id="text-q6"></div>
             <div class="options-container" id="opts-q6"></div>
         </div>
 
         <div class="question-block" id="q-block-7" style="padding: 40px 20px; padding-bottom: 80px;">
-            <img src="https://drive.google.com/thumbnail?id=19ypKj8wMgzEyJcoGpyXvOXEqX9wmCduZ&sz=w800" class="question-top-img" loading="lazy">
             <div class="section-label" id="label-q7"></div>
             <div class="narration-box" id="text-q7"></div>
             <div class="options-container" id="opts-q7"></div>
@@ -463,7 +660,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
     </section>
 
-    <!-- RESULTS -->
+    <!-- 결과 섹션 -->
     <section class="cut bg-screentone-1" id="step-result">
         <div class="section-label" id="result-label-text"></div>
         <div class="chart-panel"><canvas id="radarChart"></canvas></div>
@@ -485,7 +682,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div style="height: 60px; width: 100%;"></div>
     </section>
 
-    <!-- ALL GUIDES SECTION -->
+    <!-- 모든 가이드 섹션 -->
     <section class="cut bg-screentone-2" id="step-all-guides">
         <button class="back-btn" onclick="nextStep('result')" id="back-to-result-btn" style="margin-left: 0; margin-bottom: 20px;"></button>
         <div class="title-text" style="font-size: 2rem; text-align: left; margin-bottom: 10px;" id="all-cheat-codes-title">All Cheat Codes</div>
@@ -503,10 +700,35 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     let userChoices = [null, null, null, null, null, null, null];
     const totalQuestions = 7;
 
+    // 캐러셀 언어별 다국어 이미지 세팅
+    const carouselImages = {
+        en: [
+            "1G9w7Fel9cHrd32paIZMVE5iQjIZhJHMn",
+            "1cruR6sIla93gFurgedKy3ISxIAcAfwB7",
+            "11W5o6n14CrEs0o8F_8n7Pu0aOwsNmj7a",
+            "1Vm9GZ3rr1xPqbe99Dn0G5vcVbL2cPhnI"
+        ],
+        th: [
+            "18L6zF3ISemmm7zdQ6I3YIHShLTnfz33h",
+            "1APbe0odY3Og_Nh-AOQwEj0jXqKUhGYxF",
+            "12F1fOeMcO6DQo_upsPsgdm7Bgu-vDZKp",
+            "1PLgHVPZBdYzlUJzXcKDr9EL83U3x-8ez"
+        ]
+    };
+
+    // 번역 데이터
     const i18n = {
         en: {
+            msgTitle: "For You",
+            msgBody: "Think of this as a \"vaccine for the future\" —designed to keep you calm and grounded, even if a trip to Korea isn't on your radar just yet.<br><br>Scroll down to check your \"Digital Balance.” This project was built with the heart and soul of a team chasing their dreams. Your engagement keeps us moving forward here in Korea.",
+            
+            // 새롭게 추가된 지그재그 섹션 텍스트 (English)
+            brocTitle: "This Test is ...",
+            brocBody: "Planning a trip to Korea or dreaming of visiting soon? We cordially invite you to take our \"Travel Personality Quiz!\"",
+            grapeBody: "In reality, even if you want to visit the trendiest local \"hot spots\" in Korea, you often hit a wall called \"Identity Verification.\" Whether it’s checking for allergy information or finding religious-friendly meals, many travelers give up due to the lack of clear information in their own language.",
+            strawBody: "We designed this quiz with a deep understanding of the challenges you face. From navigating new transit payment systems to learning local etiquettes that seem to change with every place you visit.<br><br>Find out your travel type with just 7 quick questions, and receive a \"Real-time Local Guide\" to get you ready to explore right away!",
+
             startSubTitle: "What kind of Korea traveler are you?",
-            startBottomText: "Only 7 questions · No signup · All tips unlocked",
             startTitle: "Travel Personality<br>Quiz", startBtn: "Tap to start", back: "← Back", restart: "Restart", share: "Share Link",
             allGuides: "Explore all survival cheat codes", backResult: "← Back to Result", allTitle: "All Cheat Codes",
             resultLabel: "Your survival kit,<br>curated for your vibe.", cheatTitle: "Survival Cheat Codes",
@@ -558,8 +780,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             }
         },
         th: {
+            msgTitle: "สำหรับคุณ",
+            msgBody: "มันเป็นวัคซีนสำหรับอนาคต ที่จะช่วยให้คุณไม่ตื่นตระหนกในทุกสถานการณ์ แม้ว่าคุณจะยังไม่มีแผนมาเกาหลีในตอนนี้ก็ตาม<br><br>ลองเลื่อนลงมาเช็ค \"ความเป็นอยู่ดิจิทัล\" ของคุณ ผ่านแรงสนับสนุนจากเหล่าผู้หางานที่ตั้งใจกันอย่างสุดตัว! การมีส่วนร่วมของคุณจะเป็นกำลังใจที่ยิ่งใหญ่ สำหรับพวกเราชาวเกาหลีที่ตั้งใจออกแบบโปรเจกต์นี้ครับ",
+            
+            // 새롭게 추가된 지그재그 섹션 텍스트 (Thai)
+            brocTitle: "การทดสอบนี้คือ...",
+            brocBody: "สำหรับท่านที่กำลังจะเดินทางไปเกาหลี หรืออยากไปเที่ยวเกาหลี ขอเชิญทุกท่านมาทำแบบทดสอบ บุคลิกภาพการเดินทางครับ!",
+            grapeBody: "ในความเป็นจริง แม้จะอยากไปเช็คอิน ตามที่ฮิปๆ ในเกาหลี แต่ก็ต้องเจอกับ กำแพง \"การยืนยันตัวตน\" ที่แสนยุ่งยาก หรือแม้จะเช็คข้อมูลเรื่องภูมิแพ้ ก็ต้องถอดใจเพราะขาดข้อมูลภาษาไทย",
+            strawBody: "เราออกแบบการทดสอบนี้ด้วยความเข้าใจ ในปัญหาที่คุณต้องเจอ ไม่ว่าจะเป็น ระบบจ่ายค่าเดินทางแบบใหม่ หรือมารยาทท้องถิ่นที่ซับซ้อน<br><br>ลองเช็คประเภทของคุณผ่านคำถามเพียง 7 ข้อ พร้อมรับ \"ไกด์ท้องถิ่นแบบเรียลไทม์\" ที่จะทำให้คุณพร้อมลุยได้ทันที!",
+
             startSubTitle: "คุณเป็นนักเที่ยวเกาหลีสายไหน?",
-            startBottomText: "ตอบแค่ 7 ข้อ · ไม่ต้องสมัคร · เปิดครบทุกทริค",
             startTitle: "ควิซทายใจ<br>สไตล์การท่องเที่ยว", startBtn: "เริ่มทดสอบ", back: "← ย้อนกลับ", restart: "เริ่มใหม่", share: "แชร์ลิงก์",
             allGuides: "ดูคู่มือเอาตัวรอดทั้งหมด", backResult: "← กลับไปที่ผลลัพธ์", allTitle: "คู่มือเอาตัวรอดทั้งหมด",
             resultLabel: "นี่คือชุดเครื่องมือเอาตัวรอดของคุณ!", cheatTitle: "คู่มือเอาตัวรอด",
@@ -569,7 +799,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             labels: { p1: "PART 1. ก่อนออกเดินทาง — ช่วงเตรียมตัว", p2: "PART 2. ถึงเกาหลีแล้ว — จุดที่มักจะงง", p3: "PART 3. หน้างาน — วิธีรับมือของคุณ" },
             radarLabels: [['สกิลดิจิทัล', 'ตัวแม่'], ['สกิลนักสืบ', 'โซเชียล'], ['ไหวพริบ', 'สายเกา'], ['ความไวเป็น', 'ปีศาจ'], ['สกิลเอาตัวรอด', 'ขั้นเทพ']],
             questions: [
-                { q: "Q1. ก่อนไปเกาหลี ปกติเตรียมตัวอย่างไร?", o: ["จดรายการสถานที่จากโซเชียลมีเดียไว้เพียบเลย", "พยายามจองผ่านแอป แต่ติดตรงการยืนยันตัวตนทุกที", "ใช้ข้อมูลเดิมที่เคยได้ผลครั้งก่อน", "เลือกจุดเช็คอินแค่ไม่กี่ที่ ที่เหลือไปลุยเอาดาบหน้า"] },
+                { q: "Q1. ก่อนไปเกาหลี ปกติเตรียมตัวอย่างไร?", o: ["จดรายการสถานที่จากโซเชีลมีเดียไว้เพียบเลย", "พยายามจองผ่านแอป แต่ติดตรงการยืนยันตัวตนทุกที", "ใช้ข้อมูลเดิมที่เคยได้ผลครั้งก่อน", "เลือกจุดเช็คอินแค่ไม่กี่ที่ ที่เหลือไปลุยเอาดาบหน้า"] },
                 { q: "Q2. ต้องใช้บัตรเดินทางจากสนามบินเข้าเมือง คุณจะ...", o: ["ตัวเลือกเยอะเกินไป เลือกไม่ถูกว่าต้องใช้อันไหน", "นึกว่าบัตรที่มีจะใช้ได้ แต่ดันแตะไม่ผ่านจนทำอะไรไม่ถูก", "ใช้บัตรเดิมที่เคยใช้ แต่ทำไมตอนนี้มันใช้ไม่ได้ ระบบเปลี่ยนหรือเปล่า", "มีบัตรนะ แต่กังวลเพราะไม่รู้กฎการเปลี่ยนสายหรือเวลาเดินทาง"] },
                 { q: "Q3. ถึงร้านดังแล้ว จะกดคิว…แต่ติดปัญหา", o: ["คนเยอะมาก ไม่รู้ว่าต้องลงชื่ออย่างไร เลยได้แต่ยืนเก้ๆ กังๆ หน้าร้าน", "การลงคิวต้องใช้เบอร์โทรศัพท์เกาหลี และฉันก็ติดตรงนี้อีกแล้ว", "เมื่อก่อนเคยต่อแถวได้เลย แต่ทำไมตอนนี้ต้องกดเครื่องเอา", "ลงคิวได้แล้ว แต่ไม่แน่ใจว่าจะรู้ได้อย่างไรว่าถึงคิวแล้ว เลยได้แต่มองหน้าร้านไว้"] },
                 { q: "Q4. คุณได้ที่นั่งในร้านแล้ว แต่ไม่มีพนักงานมาบริการเลย คุณจะ...", o: ["พยายามหาข้อมูล แต่ก็เยอะจนไม่รู้จะเชื่ออันไหนดี", "นั่งรอเฉยๆ เผื่อจะมีใครสังเกตเห็นเราบ้าง", "รู้สึกว่าเมื่อก่อนเขาจะมาบริการให้นะ ระบบเปลี่ยนไปหรือเปล่า", "ไม่กล้าลุกไปหยิบน้ำเองเพราะกลัวเสียมารยาท ได้แต่มองไปรอบๆ"] },
@@ -578,14 +808,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 { q: "Q7. สิ่งที่คุณคิดบ่อยที่สุดในทริปนี้คือ...", o: ["\"ข้อมูลในเน็ตเยอะนะ แต่ไม่มีอันไหนที่เหมาะกับเราจริงๆ เลย\"", "\"เตรียมตัวมาดีแล้วนะ แต่ ทำไมระบบยังบล็อกเราอยู่ดี\"", "\"เอ๊ะ เมื่อก่อนไม่ใช่แบบนี้นี่นา ต้องเรียนรู้ใหม่หมดเลยเหรอ\"", "\"โอเค มาถึงตรงนี้แล้ว... แล้วต้องทำอะไรต่อล่ะ\""] }
             ],
             results: {
-                A: { tag: "หลักสูตรเพิ่มเติม: พลังแห่งการลงมือทำ", title: "นักสำรวจข้อมูลล้นหลาม", desc: "คุณหาข้อมูลมาแน่นมาก แต่ข้อมูลที่มากเกินไปทำให้คุณลังเล บางครั้งการลงมือทำเลยก็ดีกว่าความสมบูรณ์แบบนะ" },
+                A: { tag: "หลักสูตรเพิ่มเติม: พลังแห่งการลงมือทำ", title: "นักสำรวจข้อมูลล้นหลาม", desc: "คุณหาข้อมูลมาแน่นมาก แต่ข้อมูลที่มากเกินไปทำให้คุณลังเล บางครั้งการลงมือทำเลยก็ดีกว่าความสมณ์แบบนะ" },
                 B: { tag: "หลักสูตรเพิ่มเติม: ทักษะดิจิทัล", title: "นักเดินทางสายอนาล็อก", desc: "คุณเตรียมตัวมาพร้อมมาก แต่ ระบบยืนยันตัวตนของเกาหลีมักเป็นอุปสรรค แค่เรียนรู้แอปท้องถิ่นไม่กี่แอป คุณก็จะไปได้ทุกที่" },
                 C: { tag: "หลักสูตรเพิ่มเติม: ทักษะการสังเกตสังคม", title: "ลูกค้าประจำที่ต้องอัปเดตระบบ", desc: "เกาหลีไม่ใช่ที่ใหม่สำหรับคุณ แต่ทุกครั้งที่มาเหมือนต้องเริ่มใหม่เพราะทุกอย่างเปลี่ยนไปไวมาก ได้เวลาอัปเดตข้อมูลแล้ว" },
                 D: { tag: "หลักสูตรเพิ่มเติม: อัปเดตข้อมูลล่าสุด", title: "มือใหม่ตลอดกาล", desc: "คุณผ่านด่านแรกมาได้ แต่ พอเข้ามาข้างในคุณกลับทำตัวไม่ถูก ลองเรียนรู้กฎที่ไม่ได้เขียนไว้ แล้วคุณจะเที่ยวได้อย่างผ่อนคลาย" }
             },
             cheats: {
                 A: [
-                    { t: "กลยุทธ์สั่งอาหารและระบบเมนู", i: ["ใช้ฟีเจอร์แปลภาษาแบบเรียลไทม์เพื่อดูข้อมูลจากเมนู", "เครื่องสั่งอาหาร (Kiosk) ใช้งานโดยการเลือกจากรูปภาพหรือไอคอน", "การชี้ไปที่รายการอาหารหรือโต๊ะข้างๆ พร้อมพูดว่า 'อี-กอ-โย' (이거요 / อันนี้) เป็นวิธีที่ได้ผลที่สุด", "บันทึกประโยคสำคัญ เช่น 'ทอล แม็บ-เก แฮ-จู-เซ-โย' (덜 맵게 해주세요 / Deol maep-ge hae-ju-se-yo) ไว้ในแอปเพื่อโชว์ให้พนักงานดู"], tip: "เคล็ดลับ: ตัดปัญหาเรื่องภาษาและสื่อสารด้วยท่าทางร่วมกับเทคโนโลยี" },
+                    { t: "กลยุทธ์สั่งอาหารและระบบเมนู", i: ["ใช้ฟีเจอร์แปลภาษาแบบเรียลไทม์เพื่อดูข้อมูลจากเมนู", "เครื่องสั่งอาหาร (Kiosk) ใช้งานโดยการเลือกจากรูปภาพหรือไอคอน", "การชี้ไปที่รายการอาหารหรือโต๊ะข้างๆ พร้อมพูดว่า 'อี-กอ-โย' (이거요 / อันนี้) เป็นวิธีที่ได้ผลที่สุด", "บันทึกประโยคสำคัญ เช่น 'ทอล แม็บ-เก แฮ-จู-เซ-โย' (덜 맵เก 해주세요 / Deol maep-ge hae-ju-se-yo) ไว้ในแอปเพื่อโชว์ให้พนักงานดู"], tip: "เคล็ดลับ: ตัดปัญหาเรื่องภาษาและสื่อสารด้วยท่าทางร่วมกับเทคโนโลยี" },
                     { t: "การจัดการข้อมูลการแพ้อาหาร", i: ["จดข้อมูลการแพ้อาหารเป็นภาษาเกาหลีไว้ในแอปโน้ต", "โชว์หน้าจอให้พนักงานดูทันทีเมื่อเข้าร้านเพื่อเลี่ยงการอธิบายที่ยุ่งยาก", "ใช้กล้องแปลภาษาสแกนฉลากส่วนผสมที่ร้านสะดวกซื้อได้ทันที", "สำหรับอาหารเฉพาะทาง (วีแกน/ฮาลาล) ให้ใช้แอปค้นหาเฉพาะทางช่วยกรองตัวเลือก"], tip: "เคล็ดลับ: จัดรูปแบบข้อมูลให้ชัดเจนและยื่นให้พนักงานดูเพื่อความปลอดภัย" },
                     { t: "วิธีค้นหาร้านอาหารท้องถิ่น", i: ["ใช้แอปรีวิวร้านอาหารของเกาหลีแทนแอปแผนที่ทั่วไปเพื่อให้ได้ข้อมูลที่แม่นยำ", "ค้นหาแฮชแท็กในโซเชียลมีเดียเพื่อดูรีวิวลล่าสุด", "เจ้าของที่พักเป็นแหล่งข้อมูลท้องถิ่นที่เชื่อถือได้มากที่สุด", "อัปเดตข้อมูลจากรีวิวล่าสุด โดยเฉพาะร้านที่อยู่นอกโซล"], tip: "เคล็ดลับ: ให้ความสำคัญกับข้อมูลท้องถิ่นแบบเรียลไทม์มากกว่าการค้นหาทั่วไป" },
                     { t: "การใช้ระบบชำระเงินและการจอง", i: ["แอปจองอย่างเป็นทางการสำหรับชาวต่างชาติคือช่องทางหลักที่สะดวก", "การทัก DM ในโซเชียลมีเดียเป็นทางลัดที่มีประสิทธิภาพเมื่อระบบหลักมีปัญหา", "พกบัตรเติมเงินหรือบัตรเดินทางไว้เสมอเพื่อให้ครอบคลุมการใช้จ่ายและการเดินทาง"], tip: "เคล็ดลับ: เตรียมเครื่องมือที่ถูกต้องเพื่อลดอุปสรรคในการจ่ายเงินและการจอง" }
@@ -599,17 +829,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 C: [
                     { t: "วิธีเลือกบัตรเดินทางที่เหมาะกับคุณ", i: ["สำหรับสายเที่ยวคุ้ม: บัตรเดินทางแบบไม่จำกัดเที่ยว", "สำหรับสายสะดวก: บัตรเติมเงินมาตรฐาน (T-money) ใช้จ่ายแท็กซี่และร้านสะดวกซื้อได้", "สำหรับสาย All-in-One: บัตรเติมเงินสกุลต่างชาติที่ใช้เป็นบัตรเดบิตได้", "สำหรับสายท่องเที่ยว: บัตรท่องเที่ยวเมือง"], tip: "เคล็ดลับ: เลือกบัตรที่สอดคล้องกับแผนการเดินทางของคุณ" },
                     { t: "ทางลัดแผนที่ ไม่ต้องเสียเวลาค้นหาเอง", i: ["ปัญหา: การค้นหาเป็นภาษาอังกฤษมักได้ข้อมูลจำกัด", "วิธีแก้: ไปคัดลอกลิงก์ 'Bookmark Map Lists' ที่อินฟลูเอนเซอร์แชร์ไว้", "ผลลัพธ์: เพียงลิงก์เดียว สถานที่ฮิปๆ ทั้งหมดจะปรากฏบนแผนที่ของคุณทันที"], tip: "เคล็ดลับ: นำเข้าข้อมูลที่มีอยู่แล้ว แทนที่จะเริ่มหาใหม่จากศูนย์" },
-                    { t: "ทำไมยังต้องพกเงินสดติดตัวไว้บ้าง", i: ["อาหารริมทาง เช่น พุงออปัง (붕어빵), ต็อกบกกี (떡볶이) มักจะรับเฉพาะเงินสด", "การเติมเงินบัตรในบางสถานีอาจรับเฉพาะเงินสด", "ตลาดใต้ดินมักจะได้ส่วนลดหากจ่ายด้วยเงินสด", "มองหาตู้ 'Global ATM' เพื่อกดเงินสดด้วยบัตรต่างประเทศ"], tip: "เคล็ดลับ: พกเงินสดติดตัวไว้เสมอสำหรับธุรกรรมแบบอนาล็อก" },
+                    { t: "ทำไมยังต้องพกเงินสดติดตัวไว้บ้าง", i: ["อาหารริมทาง เช่น พุงออปัง (붕어빵), ต็อกบกกี (떡볶ี) มักจะรับเฉพาะเงินสด", "การเติมเงินบัตรในบางสถานีอาจรับเฉพาะเงินสด", "ตลาดใต้ดินมักจะได้ส่วนลดหากจ่ายด้วยเงินสด", "มองหาตู้ 'Global ATM' เพื่อกดเงินสดด้วยบัตรต่างประเทศ"], tip: "เคล็ดลับ: พกเงินสดติดตัวไว้เสมอสำหรับธุรกรรมแบบอนาล็อก" },
                     { t: "กฎการแตะบัตรและทางลัดการเปลี่ยนสาย", i: ["ต้องแตะบัตรตอนลงทุกครั้ง (Tag Off) ไม่เช่นนั้นอาจโดนหักเงินเพิ่ม", "ต้องเปลี่ยนสายภายใน 30 นาทีถึงจะได้ส่วนลดการต่อรถ", "ใช้บัตร 1 ใบต่อ 1 คนเท่านั้นเพื่อรับสิทธิ์ส่วนลด"], tip: "เคล็ดลับ: การแตะบัตรตอนลงคือสิ่งที่ต้องทำ ไม่ใช่ทางเลือก" }
                 ],
                 D: [
                     { t: "ลำดับขั้นตอน: ทานอาหารแบบคนท้องถิ่น", i: ["เข้าร้าน → เช็กป้ายบริการตนเอง → จ่ายเงินตอนออก", "สังเกตป้ายสำหรับน้ำดื่มหรือเครื่องเคียง ถ้ามีให้ไปหยิบเอง", "ดูสภาพแวดล้อมว่าควรสั่งอาหารทันที หรือรอพนักงาน", "ปกติจะจ่ายเงินที่เคาน์เตอร์ตอนออก แต่ ให้เช็กว่าต้องจ่ายก่อนหรือไม่"], tip: "เคล็ดลับ: จำลำดับง่ายๆ: นั่ง → สั่ง → จ่ายเงินที่ประตูขาออก" },
                     { t: "อย่ามัวแต่รอ ต้องเป็นฝ่ายรุก", i: ["พนักงานมักไม่เดินมาที่โต๊ะโดยอัตโนมัติ ให้เรียกพนักงานว่า 'ซา-จัง-นิม' (사장님 / Boss) เมื่อต้องการสั่ง", "ถ้ามัวแต่นั่งจ้องเมนู พนักงานอาจคิดว่าคุณยังไม่พร้อมสั่ง", "ในบาร์หรือผับ ปกติจะต้องสั่งกับแกล้ม (안주 / อัน-จู) อย่างน้อยหนึ่งอย่าง"], tip: "เคล็ดลับ: ระบบที่นี่ไม่ใช่การ 'นั่งรอให้เขาเดินมาบริการ' เสมอไป" },
-                    { t: "ทำความเข้าใจเรื่องราคาและปริมาณ", i: ["ราคาส่วนใหญ่มักจะเป็นราคาต่อหนึ่งคน ('1인분' / Il-in-bun)", "เช็กเงื่อนไขการสั่งขั้นต่ำเสมอ (เช่น '2인 이상' / 2 ที่ขึ้นไป)", "น้ำดื่มและเครื่องเคียงพื้นฐาน (반찬 / พัน-ชัน) ส่วนใหญ่มักจะฟรี", "เมนูปิ้งย่างมักจะมีจำนวนสั่งขั้นต่ำกำหนดไว้"], tip: "เคล็ดลับ: เช็กราคาต่อคน 및จำนวนสั่งขั้นต่ำเพื่อเลี่ยงความสับสน" },
+                    { t: "ทำความเข้าใจเรื่องราคาและปริมาณ", i: ["ราคาส่วนใหญ่มักจะเป็นราคาต่อหนึ่งคน ('1인분' / Il-in-bun)", "เช็กเงื่อนไขการสั่งขั้นต่ำเสมอ (เช่น '2인 이상' / 2 ที่ขึ้นไป)", "น้ำดื่มและเครื่องเคียงพื้นฐาน (반찬 / พัน-ชัน) ส่วนใหญ่มักจะฟรี", "메นูปิ้งย่างมักจะมีจำนวนสั่งขั้นต่ำกำหนดไว้"], tip: "เคล็ดลับ: เช็กราคาต่อคน 및จำนวนสั่งขั้นต่ำเพื่อเลี่ยงความสับสน" },
                     { t: "5 ประโยคสำคัญสำหรับการสั่งอาหาร", i: [
                         "ขอคำแนะนำ: 'ชู-ชอน เม-นู มวอ-เย-โย?' (추천 메뉴 뭐예요? / Chu-cheon me-nyu mwo-ye-yo?)", 
                         "อี-กอ มย็อด อิน-บุน อี-เย-โย?' (이거 몇 인분이에요? / I-geo myeot in-bun-i-ye-yo?)", 
-                        "ทานคนเดียว: 'ฮน-จา ม็อก-ออ-โด ดแว-โย?' (혼자 먹어도 돼요? / Hon-ja meo-geo-do dwae-yo?)", 
+                        "ทานคนเดียว: 'ฮน-จา ม็อก-ออ-โด ดแว-โย?' (혼จา 먹어도 돼요? / Hon-ja meo-geo-do dwae-yo?)", 
                         "อัน แม็บ-เก กา-นึง-แฮ-โย?' (안 맵게 가능해요? / An maep-ge ga-neung-hae-yo?)", 
                         "ออเดอร์ผิด: 'เช-กา ชี-คิน เม-นู-วา ทัล-ลา-โย' (제가 시킨 메뉴와 달라요. / Je-ga si-kin me-nyu-wa dal-la-yo.)"
                     ], tip: "เคล็ดลับ: ประโยคเกาหลีง่ายๆ ได้ผลดีกว่าภาษาอังกฤษที่ซับซ้อน" }
@@ -623,14 +853,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
         document.getElementById(`btn-${lang}`).classList.add('active');
         updateStaticText();
-        if (document.getElementById('step-questions') && document.getElementById('step-questions').classList.contains('active')) { 
+        if (document.getElementById('step-questions').classList.contains('active')) { 
             renderAllQuestions(); 
         } else if (document.getElementById('step-result').classList.contains('active')) { 
             showResult(true); 
         } else if (document.getElementById('step-all-guides').classList.contains('active')) { 
             showAllGuides(); 
-        } else {
-            renderAllQuestions();
         }
     }
 
@@ -638,17 +866,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         const text = i18n[currentLang];
         document.getElementById('start-sub-title').innerText = text.startSubTitle;
         document.getElementById('start-title').innerHTML = text.startTitle;
-        document.getElementById('start-btn-text').innerText = text.startBtn;
-        document.getElementById('start-bottom-text').innerText = text.startBottomText;
+        document.getElementById('msg-title').innerText = text.msgTitle;
+        document.getElementById('msg-body').innerHTML = text.msgBody;
 
-        // 시작 버튼 이미지 언어별 분기 처리
-        const startBtn = document.getElementById('start-btn-text');
-        if (currentLang === 'th') {
-            startBtn.style.setProperty('background', "url('https://drive.google.com/thumbnail?id=1gQ6D18WpAlbMNFLshf6WcnXb1XXspHEB&sz=w500') no-repeat center center", 'important');
-        } else {
-            startBtn.style.setProperty('background', "url('https://drive.google.com/thumbnail?id=1fUvS64anZIvnCeD17FbQu49Nxc96vxjI&sz=w500') no-repeat center center", 'important');
-        }
-        startBtn.style.setProperty('background-size', 'contain', 'important');
+        // 새로 추가된 지그재그 섹션 텍스트 적용
+        document.getElementById('broc-title').innerText = text.brocTitle;
+        document.getElementById('broc-body').innerHTML = text.brocBody;
+        document.getElementById('grape-body').innerHTML = text.grapeBody;
+        document.getElementById('straw-body').innerHTML = text.strawBody;
 
         document.getElementById('restart-btn').innerText = text.restart;
         document.getElementById('share-btn').innerText = text.share;
@@ -658,6 +883,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         document.getElementById('all-cheat-codes-title').innerText = text.allTitle;
         document.getElementById('result-label-text').innerHTML = text.resultLabel;
         document.getElementById('cheat-codes-title').innerText = text.cheatTitle;
+
+        // 선택된 언어에 맞춰 캐러셀 이미지 동적 교체
+        const track = document.getElementById('carouselTrack');
+        if (track) {
+            const images = track.querySelectorAll('.carousel-img');
+            const imgIds = carouselImages[currentLang];
+            images.forEach((img, index) => {
+                img.src = `https://drive.google.com/thumbnail?id=${imgIds[index % 4]}&sz=w500`;
+            });
+        }
+
         updateSubmitButtonState();
     }
 
@@ -670,45 +906,35 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             const qData = qDataList[qIndex];
             let partLabel = i === 1 ? label.p1 : (i <= 5 ? label.p2 : label.p3);
             
-            const labelEl = document.getElementById(`label-q${i}`);
-            const textEl = document.getElementById(`text-q${i}`);
+            document.getElementById(`label-q${i}`).innerText = partLabel;
+            document.getElementById(`text-q${i}`).innerText = qData.q;
+            
             const optsContainer = document.getElementById(`opts-q${i}`);
-            
-            if(labelEl) labelEl.innerText = partLabel;
-            if(textEl) textEl.innerText = qData.q;
-            
-            if(optsContainer) {
-                optsContainer.innerHTML = '';
-                ['A', 'B', 'C', 'D'].forEach((choice, idx) => {
-                    if (qData.o[idx]) {
-                        const div = document.createElement('div');
-                        div.className = 'bubble';
-                        if (userChoices[qIndex] === choice) {
-                            div.classList.add('selected');
-                        }
-                        div.innerText = qData.o[idx];
-                        div.onclick = () => selectOption(qIndex, choice);
-                        optsContainer.appendChild(div);
-                    }
-                });
-            }
+            optsContainer.innerHTML = '';
+            ['A', 'B', 'C', 'D'].forEach((choice, idx) => {
+                if (qData.o[idx]) {
+                    const div = document.createElement('div');
+                    div.className = 'bubble';
+                    if (userChoices[qIndex] === choice) div.classList.add('selected');
+                    div.innerHTML = `<span class="check-circle"></span><span class="option-text">${qData.o[idx]}</span>`;
+                    div.onclick = () => selectOption(qIndex, choice);
+                    optsContainer.appendChild(div);
+                }
+            });
         }
     }
 
     function nextStep(step) {
         if (step === 'questions') {
             const target = document.getElementById('step-questions');
-            if (target) {
-                const y = target.getBoundingClientRect().top + window.scrollY;
-                window.scrollTo({ top: y, behavior: 'smooth' });
-            }
+            const y = target.getBoundingClientRect().top + window.scrollY;
+            window.scrollTo({ top: y, behavior: 'smooth' });
             return;
         }
 
         document.querySelectorAll('.cut').forEach(el => el.classList.remove('active'));
-        const targetId = step === 'result' ? 'step-result' : (step === 'all-guides' ? 'step-all-guides' : (step === 'questions' ? 'step-questions' : 'step-' + step));
-        const target = document.getElementById(targetId);
-        if (target) target.classList.add('active');
+        const targetId = step === 'result' ? 'step-result' : (step === 'all-guides' ? 'step-all-guides' : 'step-' + step);
+        document.getElementById(targetId).classList.add('active');
         window.scrollTo({ top: 0, behavior: 'smooth' });
         
         const pw = document.getElementById('progressWrapper');
@@ -717,12 +943,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             pw.style.display = 'block'; 
             const answeredCount = userChoices.filter(c => c !== null).length;
             pf.style.width = ((answeredCount / totalQuestions) * 100) + '%'; 
-            renderAllQuestions();
-        } else { 
-            pw.style.display = 'none'; 
-        }
+        } else { pw.style.display = 'none'; }
+        
         const langNav = document.querySelector('.lang-nav');
-        if (langNav) { langNav.style.display = (step === 0 || targetId === 'step-0') ? 'flex' : 'none'; }
+        if (langNav) langNav.style.display = (step === 0 || targetId === 'step-0') ? 'flex' : 'none';
     }
 
     function selectOption(qIndex, choice) { 
@@ -731,51 +955,38 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         updateSubmitButtonState();
 
         const answeredCount = userChoices.filter(c => c !== null).length;
-        const pw = document.getElementById('progressWrapper');
         const pf = document.getElementById('progressFill');
-        if (pw && pf) {
-            pw.style.display = 'block'; 
-            pf.style.width = ((answeredCount / totalQuestions) * 100) + '%'; 
-        }
+        if (pf) pf.style.width = ((answeredCount / totalQuestions) * 100) + '%';
 
         if (answeredCount < totalQuestions) {
             let nextUnanswered = qIndex + 1;
-            while(nextUnanswered < totalQuestions && userChoices[nextUnanswered] !== null) {
-                nextUnanswered++;
-            }
+            while(nextUnanswered < totalQuestions && userChoices[nextUnanswered] !== null) nextUnanswered++;
             if(nextUnanswered < totalQuestions) {
                 const nextBlock = document.getElementById(`q-block-${nextUnanswered + 1}`);
-                if (nextBlock) {
-                    const y = nextBlock.getBoundingClientRect().top + window.scrollY - 60;
-                    window.scrollTo({ top: y, behavior: 'smooth' });
-                }
+                const y = nextBlock.getBoundingClientRect().top + window.scrollY - 60;
+                window.scrollTo({ top: y, behavior: 'smooth' });
             }
         } else {
             const submitSec = document.getElementById('submit-section');
-            if(submitSec) {
-                setTimeout(() => {
-                    const y = submitSec.getBoundingClientRect().top + window.scrollY - 60;
-                    window.scrollTo({ top: y, behavior: 'smooth' });
-                }, 300);
-            }
+            setTimeout(() => {
+                const y = submitSec.getBoundingClientRect().top + window.scrollY - 60;
+                window.scrollTo({ top: y, behavior: 'smooth' });
+            }, 300);
         }
     }
 
     function updateSubmitButtonState() {
         const submitBtn = document.getElementById('submit-btn');
         if(!submitBtn) return;
-        
         const answeredCount = userChoices.filter(c => c !== null).length;
         if (answeredCount === totalQuestions) {
             submitBtn.innerText = i18n[currentLang].submitBtn;
             submitBtn.style.backgroundColor = '#000';
-            submitBtn.style.borderColor = '#000';
             submitBtn.style.cursor = 'pointer';
-            submitBtn.onclick = showResult;
+            submitBtn.onclick = () => showResult(false);
         } else {
             submitBtn.innerText = i18n[currentLang].incompleteMsg;
             submitBtn.style.backgroundColor = '#888';
-            submitBtn.style.borderColor = '#888';
             submitBtn.style.cursor = 'not-allowed';
             submitBtn.onclick = null;
         }
@@ -789,29 +1000,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
         const profiles = { A: [4, 5, 3, 2, 3], B: [1, 3, 4, 3, 4], C: [4, 3, 2, 2, 3], D: [3, 2, 4, 4, 3] };
-        
-        const rawLabels = i18n[currentLang].radarLabels;
         const dataPoints = profiles[resultType];
         const maxVal = Math.max(...dataPoints);
 
-        // Responsive adjustments for labels
         if (currentLang === 'en') {
-            canvas.style.width = '83%';
-            canvas.style.height = '83%';
-            canvas.style.transform = 'translateY(35px)';
+            canvas.style.width = '83%'; canvas.style.height = '83%'; canvas.style.transform = 'translateY(35px)';
         } else {
-            canvas.style.width = '95%';
-            canvas.style.height = '95%';
-            canvas.style.transform = 'translateY(28px)';
+            canvas.style.width = '95%'; canvas.style.height = '95%'; canvas.style.transform = 'translateY(28px)';
         }
 
-        const finalLabels = rawLabels.map((label, index) => {
-            if (dataPoints[index] === maxVal) {
-                if (Array.isArray(label)) {
-                    const newLabel = [...label];
-                    newLabel[0] = "✨ " + newLabel[0];
-                    return newLabel;
-                }
+        const finalLabels = i18n[currentLang].radarLabels.map((label, idx) => {
+            if (dataPoints[idx] === maxVal) {
+                if (Array.isArray(label)) return ["✨ " + label[0], label[1]];
                 return "✨ " + label;
             }
             return label;
@@ -825,31 +1025,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 datasets: [{ 
                     data: dataPoints, 
                     backgroundColor: 'rgba(0, 0, 0, 0.05)', 
-                    borderColor: '#000', 
-                    borderWidth: 2, 
+                    borderColor: '#000', borderWidth: 2, 
                     pointBackgroundColor: dataPoints.map(v => v === maxVal ? '#D4AF37' : '#000'),
-                    pointBorderColor: dataPoints.map(v => v === maxVal ? '#D4AF37' : '#000'),
                     pointRadius: 4 
                 }]
             },
             options: { 
                 responsive: true,
-                maintainAspectRatio: true,
                 scales: { 
                     r: { 
-                        suggestedMin: 0, 
-                        suggestedMax: 5, 
+                        suggestedMin: 0, suggestedMax: 5, 
                         ticks: { display: false, stepSize: 1 },
                         pointLabels: {
-                            font: (context) => {
-                                const isMax = dataPoints[context.index] === maxVal;
-                                return {
-                                    size: 14,
-                                    weight: isMax ? 'bold' : '300',
-                                    family: "'Noto Sans', sans-serif"
-                                };
-                            },
-                            color: (context) => dataPoints[context.index] === maxVal ? '#D4AF37' : '#000',
+                            font: (ctx) => ({ size: 14, weight: dataPoints[ctx.index] === maxVal ? 'bold' : '300' }),
+                            color: (ctx) => dataPoints[ctx.index] === maxVal ? '#D4AF37' : '#000',
                             padding: 5
                         }
                     } 
@@ -864,14 +1053,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             const tallies = { A: 0, B: 0, C: 0, D: 0 }; 
             userChoices.forEach(c => { if(c) tallies[c]++; });
             savedWinner = Object.keys(tallies).reduce((a, b) => tallies[a] > tallies[b] ? a : b);
-
-            // GTM DataLayer Push (SubmitForm Event for Tiktok Pixel)
-            // 브라우저 탭(세션) 단위로 중복 발송 방지 로직 적용
+            
+            // GTM Event
             if (!sessionStorage.getItem('tt_SubmitForm_fired')) {
                 window.dataLayer = window.dataLayer || [];
-                window.dataLayer.push({
-                    'event': 'SubmitForm'
-                });
+                window.dataLayer.push({'event': 'SubmitForm'});
                 sessionStorage.setItem('tt_SubmitForm_fired', 'true');
             }
         }
@@ -881,90 +1067,99 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         document.getElementById('res-title').innerText = resData.title;
         document.getElementById('res-desc').innerText = resData.desc;
         
-        const cheats = i18n[currentLang].cheats[savedWinner];
-        const prefix = i18n[currentLang].cheatCodePrefix;
         const grid = document.getElementById('dynamicGuideGrid');
         grid.innerHTML = '';
-        cheats.forEach((c, idx) => {
-            const panel = document.createElement('div'); 
-            panel.className = 'guide-panel';
-            const list = c.i.map(li => `<li>${li}</li>`).join('');
-            panel.innerHTML = `<div class="guide-num">${prefix} #${idx + 1}</div><div class="guide-title">${c.t}</div><ul>${list}</ul><div class="guide-tip">${c.tip}</div>`;
+        i18n[currentLang].cheats[savedWinner].forEach((c, idx) => {
+            const panel = document.createElement('div'); panel.className = 'guide-panel';
+            panel.innerHTML = `<div class="guide-num">${i18n[currentLang].cheatCodePrefix} #${idx+1}</div><div class="guide-title">${c.t}</div><ul>${c.i.map(li=>`<li>${li}</li>`).join('')}</ul><div class="guide-tip">${c.tip}</div>`;
             grid.appendChild(panel);
         });
         
-        nextStep('result'); 
-        drawRadar(savedWinner);
+        nextStep('result'); drawRadar(savedWinner);
     }
 
     function showAllGuides() {
         const container = document.getElementById('allGuidesContainer');
         container.innerHTML = '';
-        const prefix = i18n[currentLang].cheatCodePrefix;
         ['A', 'B', 'C', 'D'].forEach(type => {
-            const header = document.createElement('div');
-            header.className = 'type-header';
+            const header = document.createElement('div'); header.className = 'type-header';
             header.innerText = i18n[currentLang].results[type].title;
             container.appendChild(header);
-            const guideGrid = document.createElement('div');
-            guideGrid.className = 'guide-grid';
+            const grid = document.createElement('div');
             i18n[currentLang].cheats[type].forEach((c, idx) => {
-                const panel = document.createElement('div');
-                panel.className = 'guide-panel';
-                const list = c.i.map(li => `<li>${li}</li>`).join('');
-                panel.innerHTML = `<div class="guide-num">${prefix} #${idx + 1}</div><div class="guide-title">${c.t}</div><ul>${list}</ul><div class="guide-tip">${c.tip}</div>`;
-                guideGrid.appendChild(panel);
+                const panel = document.createElement('div'); panel.className = 'guide-panel';
+                panel.innerHTML = `<div class="guide-num">${i18n[currentLang].cheatCodePrefix} #${idx+1}</div><div class="guide-title">${c.t}</div><ul>${c.i.map(li=>`<li>${li}</li>`).join('')}</ul><div class="guide-tip">${c.tip}</div>`;
+                grid.appendChild(panel);
             });
-            container.appendChild(guideGrid);
+            container.appendChild(grid);
         });
         nextStep('all-guides');
     }
 
     function shareLink(btnId) {
-        const url = window.location.href.split('?')[0] + '?utm_source=share';
+        const url = window.location.href.split('?')[0];
         const tempInput = document.createElement('input');
-        tempInput.value = url; 
-        document.body.appendChild(tempInput);
-        tempInput.select(); 
-        document.execCommand('copy');
-        document.body.removeChild(tempInput);
+        tempInput.value = url; document.body.appendChild(tempInput);
+        tempInput.select(); document.execCommand('copy'); document.body.removeChild(tempInput);
         
-        const shareBtn = document.getElementById(btnId);
-        const originalText = shareBtn.innerText;
-        shareBtn.innerText = currentLang === 'en' ? "Copied!" : "คัดลอกแล้ว!";
-        setTimeout(() => { shareBtn.innerText = originalText; }, 2000);
+        const btn = document.getElementById(btnId);
+        const original = btn.innerText;
+        btn.innerText = currentLang === 'en' ? "Copied!" : "คัดลอกแล้ว!";
+        setTimeout(() => { btn.innerText = original; }, 2000);
     }
 
     function restartQuiz() {
         userChoices = [null, null, null, null, null, null, null];
-        
         document.querySelectorAll('.cut').forEach(el => el.classList.remove('active'));
-        const step0 = document.getElementById('step-0');
-        const stepQ = document.getElementById('step-questions');
-        if (step0) step0.classList.add('active');
-        if (stepQ) stepQ.classList.add('active');
-        
-        const pw = document.getElementById('progressWrapper');
-        const pf = document.getElementById('progressFill');
-        if (pw && pf) {
-            pw.style.display = 'block';
-            pf.style.width = '0%';
-        }
-        
-        const langNav = document.querySelector('.lang-nav');
-        if (langNav) langNav.style.display = 'flex';
-        
-        renderAllQuestions();
-        updateSubmitButtonState();
-        
+        document.getElementById('step-0').classList.add('active');
+        document.getElementById('step-questions').classList.add('active');
+        document.getElementById('progressFill').style.width = '0%';
+        document.querySelector('.lang-nav').style.display = 'flex';
+        renderAllQuestions(); updateSubmitButtonState();
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    function scrollToFirstQuestion() {
+        const target = document.getElementById('q-block-1');
+        const y = target.getBoundingClientRect().top + window.scrollY - 60;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+
+    function initScrollHint() {
+        const hint = document.getElementById('scrollHint');
+        setInterval(() => { if (hint && !hint.classList.contains('hidden')) { hint.classList.add('bounce'); setTimeout(() => hint.classList.remove('bounce'), 1000); }}, 3000);
+        window.addEventListener('scroll', () => { if (window.scrollY > 150) hint.classList.add('hidden'); else hint.classList.remove('hidden'); });
+    }
+
+    let carouselReqId;
+    function initCarousel() {
+        const track = document.getElementById('carouselTrack');
+        const images = track ? track.querySelectorAll('.carousel-img') : [];
+        if (!track || images.length === 0) return;
+        let trackX = 0;
+        function animate() {
+            let resetPoint = 0;
+            for(let i = 0; i < 4; i++) resetPoint += images[i].offsetWidth + 16;
+            if (resetPoint === 0) { carouselReqId = requestAnimationFrame(animate); return; }
+            trackX -= 0.4;
+            if (trackX <= -resetPoint) trackX += resetPoint; 
+            track.style.transform = `translateX(${trackX}px)`;
+            const containerCenter = track.parentElement.getBoundingClientRect().left + (track.parentElement.offsetWidth / 2);
+            images.forEach(img => {
+                const dist = Math.abs(containerCenter - (img.getBoundingClientRect().left + img.offsetWidth/2));
+                let scale = 1.15 - ((dist / 300) * 0.3);
+                img.style.transform = `scale(${Math.max(0.85, scale)})`;
+            });
+            carouselReqId = requestAnimationFrame(animate);
+        }
+        if(carouselReqId) cancelAnimationFrame(carouselReqId);
+        animate();
+    }
+
     window.onload = () => {
-        updateStaticText();
-        renderAllQuestions();
-        const pw = document.getElementById('progressWrapper');
-        if (pw) pw.style.display = 'block';
+        updateStaticText(); renderAllQuestions();
+        document.getElementById('progressWrapper').style.display = 'block';
+        initCarousel(); initScrollHint();
     };
 </script>
 </body>
