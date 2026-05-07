@@ -411,7 +411,7 @@
             overflow: hidden; position: relative;
             z-index: 10; 
             transform: translateY(50px); /* 서브타이틀 위치와 동일하게 끌어올려 밀착 */
-            padding: 0 0 20px 0; /* 상단 패딩을 완전히 제거하여 한 덩어리로 묶음 */
+            padding: 20px 0; /* 상하 여백을 추가하여 캐러셀 이미지 확대 시 잘림 방지 및 텍스트 간격 확보 */
             pointer-events: none;
         }
         .carousel-track { display: flex; gap: 16px; width: max-content; align-items: center; }
