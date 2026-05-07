@@ -10,7 +10,7 @@
     <link rel="preload" as="image" href="https://drive.google.com/thumbnail?id=1gQ6D18WpAlbMNFLshf6WcnXb1XXspHEB&sz=w500">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@400;700&family=Noto+Sans:wght@300;400;500;700;900&family=Noto+Sans+Thai:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;700;900&family=Noto+Sans+Thai:wght@300;400;500;700&family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
     
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -234,19 +234,38 @@
 
         /* 차트 패널 */
         .chart-panel {
-            background: url('https://drive.google.com/thumbnail?id=1lkicGSGt6VwORcWXj5H2FXkl4-uT5o7m&sz=w800') no-repeat center center;
-            background-size: contain;
+            background-color: #fff;
+            border-radius: 24px;
             margin: 10px auto 30px auto;
             width: 100%; 
-            max-width: 480px;
-            aspect-ratio: 1 / 1;
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
+            padding: 20px;
         }
         
         #radarChart { margin: 0 auto; }
+
+        /* 캐릭터 이미지 플레이스홀더 (추후 이미지 추가 시 표시됨) */
+        .result-char-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start; /* 좌측 배치 (필요시 조정 가능) */
+            margin-top: -60px; /* 차트 아래쪽에 겹치도록 끌어올림 */
+            padding-left: 5%;
+            position: relative;
+            z-index: 20;
+            pointer-events: none;
+            min-height: 120px; /* 이미지가 없어도 자리를 차지하도록 설정 */
+        }
+        .result-char-img {
+            width: 140px;
+            height: auto;
+            object-fit: contain;
+            opacity: 0; /* 링크가 비어있을 때는 투명하게 숨김 */
+            transition: opacity 0.3s;
+        }
 
         /* 결과 블록 */
         .result-block { display: none; }
@@ -265,7 +284,7 @@
             text-align: center; 
             margin-bottom: 30px; 
             padding: 20px; 
-            border: 1px solid #000; 
+            border-radius: 24px;
             background: #fff; 
             word-break: break-word;
             overflow-wrap: break-word; 
@@ -274,11 +293,10 @@
 
         /* 가이드 패널 */
         .guide-panel { 
-            border: 1px solid #000; 
             padding: 20px; 
             background: #fff; 
             margin-bottom: 20px; 
-            box-shadow: 4px 4px 0 rgba(0,0,0,1);
+            border-radius: 24px;
         }
         .guide-num { 
             font-size: 0.7rem; 
@@ -546,6 +564,16 @@
             60% { transform: translateX(-50%) translateY(-5px); }
         }
         .scroll-hint-btn.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+        /* 폰트 일괄 적용 (Poppins / Noto Sans 분리) */
+        body, .msg-body, .zigzag-body, .narration-box, .bubble, .result-desc, .guide-panel, .action-btn {
+            font-family: 'Noto Sans', 'Noto Sans Thai', sans-serif !important;
+        }
+        
+        .title-text, .section-label, .result-title, .type-header, .msg-title, .zigzag-title, .guide-num, .guide-title, #start-title, #res-tag, #cheat-codes-title, #all-cheat-codes-title {
+            font-family: 'Poppins', 'Noto Sans Thai', sans-serif !important;
+        }
+
     </style>
 </head>
 <body>
@@ -682,7 +710,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- 결과 섹션 -->
     <section class="cut bg-screentone-1" id="step-result">
         <div class="section-label" id="result-label-text"></div>
-        <div class="chart-panel"><canvas id="radarChart"></canvas></div>
+        <div class="chart-panel" id="chartPanel"><canvas id="radarChart"></canvas></div>
+        
+        <!-- 추후 캐릭터 이미지가 들어갈 자리 -->
+        <div class="result-char-wrapper">
+            <img id="result-char-img" class="result-char-img" src="" alt="Result Character">
+        </div>
+
         <div id="result-display">
             <div class="result-tag" id="res-tag"></div>
             <div class="result-title" id="res-title"></div>
@@ -1015,6 +1049,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     let radarChart;
     let savedWinner = 'A';
 
+    // 결과별 테마 색상 정의 (배경색 & 스트로크 및 텍스트 강조색)
+    const resultThemes = {
+        A: { bg: '#FFF4D9', stroke: '#FFB400' }, // Info Overload Explorer
+        B: { bg: '#EFFFD0', stroke: '#517A00' }, // Analog Traveler
+        C: { bg: '#FFDFDF', stroke: '#FF4E4E' }, // Returning Regular
+        D: { bg: '#F4E3F2', stroke: '#A72498' }  // Perpetual Beginner
+    };
+
     function drawRadar(resultType) {
         const canvas = document.getElementById('radarChart');
         if (!canvas) return;
@@ -1022,11 +1064,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         const profiles = { A: [4, 5, 3, 2, 3], B: [1, 3, 4, 3, 4], C: [4, 3, 2, 2, 3], D: [3, 2, 4, 4, 3] };
         const dataPoints = profiles[resultType];
         const maxVal = Math.max(...dataPoints);
+        const themeColor = resultThemes[resultType].stroke;
 
         if (currentLang === 'en') {
-            canvas.style.width = '83%'; canvas.style.height = '83%'; canvas.style.transform = 'translateY(35px)';
+            canvas.style.width = '90%'; canvas.style.height = '90%'; canvas.style.transform = 'translateY(0)';
         } else {
-            canvas.style.width = '95%'; canvas.style.height = '95%'; canvas.style.transform = 'translateY(28px)';
+            canvas.style.width = '100%'; canvas.style.height = '100%'; canvas.style.transform = 'translateY(0)';
         }
 
         const finalLabels = i18n[currentLang].radarLabels.map((label, idx) => {
@@ -1037,6 +1080,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             return label;
         });
 
+        // 차트 기본 폰트를 Poppins로 설정
+        Chart.defaults.font.family = "'Poppins', 'Noto Sans Thai', sans-serif";
+
         if (radarChart) radarChart.destroy();
         radarChart = new Chart(ctx, {
             type: 'radar',
@@ -1044,9 +1090,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 labels: finalLabels,
                 datasets: [{ 
                     data: dataPoints, 
-                    backgroundColor: 'rgba(0, 0, 0, 0.05)', 
-                    borderColor: '#000', borderWidth: 2, 
-                    pointBackgroundColor: dataPoints.map(v => v === maxVal ? '#D4AF37' : '#000'),
+                    backgroundColor: themeColor + '33', // 투명도를 준 강조색으로 내부 채우기
+                    borderColor: themeColor, // 테두리 선 색상
+                    borderWidth: 2, 
+                    pointBackgroundColor: dataPoints.map(v => v === maxVal ? themeColor : '#000'),
                     pointRadius: 4 
                 }]
             },
@@ -1056,10 +1103,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     r: { 
                         suggestedMin: 0, suggestedMax: 5, 
                         ticks: { display: false, stepSize: 1 },
+                        grid: { color: '#eeeeee' }, // 연한 회색 선 유지
+                        angleLines: { color: '#eeeeee' }, // 연한 회색 선 유지
                         pointLabels: {
-                            font: (ctx) => ({ size: 14, weight: dataPoints[ctx.index] === maxVal ? 'bold' : '300' }),
-                            color: (ctx) => dataPoints[ctx.index] === maxVal ? '#D4AF37' : '#000',
-                            padding: 5
+                            font: (context) => ({ 
+                                size: 12, 
+                                weight: dataPoints[context.index] === maxVal ? '800' : '400',
+                                family: "'Poppins', 'Noto Sans Thai', sans-serif"
+                            }),
+                            color: (context) => dataPoints[context.index] === maxVal ? themeColor : '#888',
+                            padding: 8
                         }
                     } 
                 }, 
@@ -1081,6 +1134,38 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 sessionStorage.setItem('tt_SubmitForm_fired', 'true');
             }
         }
+
+        const theme = resultThemes[savedWinner];
+        
+        // 배경색 적용 (결과 페이지는 테마색, 전체 가이드 페이지는 흰색)
+        document.getElementById('step-result').style.backgroundColor = theme.bg;
+        document.getElementById('step-all-guides').style.backgroundColor = '#fff';
+        
+        // 차트 패널, 결과 설명 박스 보더 라인 적용
+        const chartPanel = document.getElementById('chartPanel');
+        if(chartPanel) chartPanel.style.border = `2px solid ${theme.stroke}`;
+        
+        const resDesc = document.getElementById('res-desc');
+        if(resDesc) resDesc.style.border = `2px solid ${theme.stroke}`;
+
+        // 강조 텍스트 컬러 적용
+        document.getElementById('res-title').style.color = theme.stroke;
+        document.getElementById('res-tag').style.color = theme.stroke;
+
+        // 추후 추가될 캐릭터 이미지 로직 (여기에 링크를 넣으시면 됩니다)
+        const charLinks = {
+            A: "", // Info Overload Explorer 이미지 링크
+            B: "", // Analog Traveler 이미지 링크
+            C: "", // Returning Regular 이미지 링크
+            D: ""  // Perpetual Beginner 이미지 링크
+        };
+        const charImg = document.getElementById('result-char-img');
+        if(charLinks[savedWinner]) {
+            charImg.src = charLinks[savedWinner];
+            charImg.style.opacity = 1;
+        } else {
+            charImg.style.opacity = 0;
+        }
         
         const resData = i18n[currentLang].results[savedWinner];
         document.getElementById('res-tag').innerText = resData.tag;
@@ -1091,6 +1176,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         grid.innerHTML = '';
         i18n[currentLang].cheats[savedWinner].forEach((c, idx) => {
             const panel = document.createElement('div'); panel.className = 'guide-panel';
+            panel.style.border = `2px solid ${theme.stroke}`;
             panel.innerHTML = `<div class="guide-num">${i18n[currentLang].cheatCodePrefix} #${idx+1}</div><div class="guide-title">${c.t}</div><ul>${c.i.map(li=>`<li>${li}</li>`).join('')}</ul><div class="guide-tip">${c.tip}</div>`;
             grid.appendChild(panel);
         });
@@ -1103,11 +1189,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         container.innerHTML = '';
         ['A', 'B', 'C', 'D'].forEach(type => {
             const header = document.createElement('div'); header.className = 'type-header';
+            header.style.backgroundColor = resultThemes[type].stroke; // 각 결과별 키 컬러로 배경색 변경
             header.innerText = i18n[currentLang].results[type].title;
             container.appendChild(header);
             const grid = document.createElement('div');
             i18n[currentLang].cheats[type].forEach((c, idx) => {
                 const panel = document.createElement('div'); panel.className = 'guide-panel';
+                panel.style.border = `2px solid ${resultThemes[type].stroke}`;
                 panel.innerHTML = `<div class="guide-num">${i18n[currentLang].cheatCodePrefix} #${idx+1}</div><div class="guide-title">${c.t}</div><ul>${c.i.map(li=>`<li>${li}</li>`).join('')}</ul><div class="guide-tip">${c.tip}</div>`;
                 grid.appendChild(panel);
             });
